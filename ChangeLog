@@ -1,0 +1,112 @@
+2009-09-02 Rezyn <rezyn0@gmail.com>
+	* fix ClientRename parsing
+	* fix player lookup by name in chat parser
+	* fix parsing of sayteam with prefixes [H] [A] [S]
+	* add player_sig.php to support player signature images
+
+2009-06-21 Rezyn <rezyn0@gmail.com>
+	* add kill/death chart to game details
+	* allow sorting of maps by alien wins, humans wins, map name
+	* allow sorting games by most kills, teamkills, or deaths
+	* added additional index to per_game_stats database
+
+2009-06-18 Rezyn <rezyn0@gmail.com>
+	* add game details page
+	* add games list page
+	* fix name alias tracking
+	* use last player name as main name for player
+	* database not compatible with older relases
+
+2009-06-17 Rezyn <rezyn0@gmail.com>
+	* add --map=<file> to parse a single map levelshot into the database
+
+2009-06-16 Rezyn <rezyn0@gmail.com>
+	* Support ClientConnect log from newer Lakitu7 qvms
+	* tremstats will now never move or rename games.log, instead it keeps
+	  track of the games.log parse position by use of a 'state' table
+	* Strip out the log archiver
+	* Possibly break use of tremstats on win32 within the line parser
+	* Use RealTime from game log to set player first seen timestamp
+	* Swap team columns in overview scoreboard to match in-game scoreboard
+
+2007-09-27 Slux <slux83@gmail.com>
+	* Added unnamed name as parametar (for Lakitu7's patch)
+	* Added Qkey support (fixed the multi-nicks probem for the same TJW client)
+	* Added possibility to show all nicks used by a TJW client in the player page
+	* Extended the Database structure
+	* Adapted the search engine to multi-nicks
+  
+2006-12-16 DASPRiD <mail@dasprids.de>
+	* Overworked the HTML code
+	* Added spectators to server monitor
+	* Added PageLister to listings
+	* Exchanged weapon icons with 1.5 version
+
+2006-12-10 DASPRiD <mail@dasprids.de>
+	* Changed some weapon names
+	* Inverted to order of desc/asc of custom sorting
+	* Showing more things on the player details stats
+	* Added a tiny template system to the ouput
+	* Added AdoDB to the ouput
+	* Optimized the entire parsing performance
+	* Added calculation of stats per game
+	* Added --reparse option to parser
+	* Added --noarchive option to parser
+
+2006-12-07 DigiFad <trem@fragify.com>
+	* Implemented a workaround to bypass problems with MSWindows locking the
+	  log file when tremded is active.
+	* Added message tally to player data to track spammers. If you are
+	  upgrading, add a new integer field to the 'players' table
+	  ('player_total_says' int(11) NOT NULL default '0').
+	* Created new variable (ARCH_DIR) to set location of archived logs.
+
+2006-11-27 DASPRiD <mail@dasprids.de>
+	* Extended the log parsing through a temporary file, so tremstats won't
+	  parse half games anymore.
+
+2006-11-24 DASPRiD <mail@dasprids.de>
+	* Seperated config to a single file
+	* Changed os.remove to a erasing of the original file
+
+2006-11-23 DASPRiD <mail@dasprids.de>
+	* Added game-time factor to player's total efficiency
+	* Unplayed games won't get count as tied anymore
+	* Using shutil.copyfile() and os.remove() to avoid pointer moving
+	* Using shutil.move() instead of normal move for unlocal filesystems
+
+2006-10-25 DASPRiD <mail@dasprids.de>:
+	* Database structure changed. Maps in games table are now logged with their
+	  corresponding map id.
+	* Extended PK3 reader; Now it also reads levelshots (JPEG and THA) out of
+	  the PK3 files.
+
+2006-10-24 DASPRiD <mail@dasprids.de>:
+	* Integrated new submodule; PK3 reader, which reads the long name of maps
+	  out of the .arena files.
+	* Tremstats splitted into 2 submodules, Parser and Calculator
+
+2006-10-23 DASPRiD <mail@dasprids.de>:
+	* Added logging of game ids
+
+2006-10-22 DASPRiD <mail@dasprids.de>:
+	* Included parsing of teamkills. Does only work with patched server.
+	* Better handling of games.log. The parser first checks now if the filesize
+	  equals to 0 byte. If yes, it exists. Else it waits until the log does not
+	  not grow for more than 2 seconds anymore. Then it moves it to a temporary
+	  position and parses it. After parsing is done, the log is archived into a
+	  local directory.
+
+2006-10-21 DASPRiD <mail@dasprids.de>:
+	* Progressbar integrated
+	* Big data are now precalculated, so the MySQL server does not have to much
+	  to do, when the output is calculated. This takes up 1 up to 10 more
+	  seconds, depending on the data in the database, at the end of parsing.
+	* Optimized MySQL table structure
+	* Optimized parser speed
+
+2006-10-20 DASPRiD <mail@dasprids.de>:
+	* Main parsing done
+
+2006-10-19 DASPRiD <mail@dasprids.de>:
+	* First few lines typed

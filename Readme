@@ -1,0 +1,119 @@
+Requirements
+-------------------------------------------------------------------------------
+You need atleast the following things for the Tremulous server:
+	- Python 2.4 or 2.5 (tested with 2.4)
+	- Site-Packages:
+        MySQLdb
+        Python Imaging Library (PIL)
+
+And the following things for the webserver (may be the same box):
+	- MySQL 4.1 or higher
+	- PHP 5.0 or heigher
+
+You should also have created your logs so far with Tremulous patched with TJW,
+because it contains important things for the statistics in the logfiles.
+
+Rezyn Notes:
+ - A lakitu7 QVM or one based upon it should provide proper logfiles.
+ - This release package does not support games.log archiving, instead it
+   will remember where the parser stopped within games.log and begin
+   from that point on the next run. logs with unfinished games are also
+   handled properly.
+
+Patching Tremulous
+-------------------------------------------------------------------------------
+For logging team kills, you need to patch your Tremulous server with the patch
+in the 'LogTeamClass.patch' in the 'trempatch' directory. As of version 6.0,
+95% of all teamkills can also logged with unpatched version. With Tremulous
+1.2, the patch will be included, so there will be no need anymore to patch
+Tremulous.
+
+I won't explain, how you patch Tremulous. If you don't know it, ask in the
+forums or in the IRC channel. I got my version patched by a friend, so I don't
+even really know, how to do it, so don't ask me.
+
+
+
+Installation
+-------------------------------------------------------------------------------
+First you have to setup your MySQL database. So create a new database or change
+to an existing one. Then execute the both SQL files 'structure.sql' and
+'data.sql'.
+
+Now copy all files from the 'input' directory to a directory on your Tremulous
+server, for example '/usr/local/games/tremstats/'. Then give the mainfile
+execute rights by typing 'chmod a+x tremstats.py'.
+
+Then open 'config.py' in your prefered texteditor and edit the first few
+lines and enter your MySQL data and location of the 'games.log' and all
+your custom maps PK3s. After this part is done, you may parse your log which
+was created so far by typing './tremstats.py'.
+
+You may want to parse your logfile every 10 minutes or something like that.
+If you use crontab, you can enter the following line into '/etc/crontab':
+
+	*/10 * * * * root /usr/local/games/tremstats/tremstats.py
+
+For further information about crontab, see Google.
+
+Last but not least, add the setting 'set g_logsync 0' to your server.cfg.
+
+Now, as you have setup all important things, you also want to see some output.
+So copy all files from 'output' to a directory reachable from the internet.
+Edit the file 'core/config.inc.php' and enter your MySQL data here again. The
+last setting in this file is the address of your tremulous server. This
+should be something like 'localhost:30720' or an external address. If you
+have done this step, you have done everything. Have fun with Tremstats!
+
+
+
+Notices on tremstats.py
+-------------------------------------------------------------------------------
+Tremstats.py offers you some nice features. Type 'tremstats.py --help' for
+more information.
+
+
+
+Notices on the output
+-------------------------------------------------------------------------------
+The output system is written very simple. If you want to just change the
+colors, you may edit the CSS file. If you want a bigger change to the layout,
+you can change the template files in the 'template' directory. They are
+written in PHP, so you don't have to learn any complicated template system
+syntax. Even if you don't know PHP but HTML, you will understand the really
+simple syntax used there.
+
+If you change the colors background behind the graphs, you may also edit the
+'_graphs.php' file and set the colors their.
+
+
+
+Special Thanks
+-------------------------------------------------------------------------------
+I want to thank Ingar, who supported me with a lot of knowledge about linux
+and helped me to test the parser several times. He also patched Tremulous for
+me.
+
+Then I want to thank WolfWings, who wrote the patch for Tremulours, very good
+work.
+
+Also a big thanks to Gilmor, who found the cause for this nasty bug of unlogged
+kills and destructions and also to DigiFad, who submitted a patch for windows.
+
+At this point, thanks to Basilisk for the really great icons!
+
+At least I want to thank all users in #tremulous, who helped me with some small
+information and gave me lots of tips. Your are the best!
+
+
+
+Contact
+-------------------------------------------------------------------------------
+You like Tremstats and want to contact me? Well, there are several ways.
+
+Name:    Ben 'DASPRiD' Scholzen
+Jabber:  dasprid@jabber.org
+ICQ:     105677955
+IRC:     #DASPRiDs @ quakenet
+E-Mail:  mail@dasprids.de
+Website: http://www.dasprids.de

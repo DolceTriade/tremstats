@@ -1,0 +1,271 @@
+html, body {
+  padding: 0;
+  margin: 0;
+
+  background-color: #0e1011;
+}
+
+* {
+  font-family: Verdana, Arial, Helvetica, Sans;
+  font-size: 12px;
+  color: #FFFFFF;
+}
+
+img {
+  border: none;
+}
+
+form {
+  float: right;
+  margin: 0;
+  padding: 0;
+}
+
+form fieldset {
+  margin: 10px 0;
+  padding: 5px;
+  border: 1px solid #707880;
+  background-color: #1a1c1e;
+}
+
+form fieldset label {
+  float: left;
+  margin-top: 2px;
+  margin-right: 10px;
+}
+
+form fieldset input[type="text"] {
+  float: left;
+  padding: 1px 4px;
+  width: 200px;
+
+  background-color: #22262a;
+  border-top: 1px solid #040505;
+  border-left: 1px solid #040505;
+  border-bottom: 1px solid #57616b;
+  border-right: 1px solid #57616b;
+}
+
+form fieldset input[type="submit"] {
+  float: right;
+  padding: 1px 4px;
+  margin-left: 10px;
+  width: 60px;
+
+  background-color: #22262a;
+  border-top: 1px solid #57616b;
+  border-left: 1px solid #57616b;
+  border-bottom: 1px solid #040505;
+  border-right: 1px solid #040505;
+}
+
+form fieldset input[type="submit"]:hover {
+  border-top: 1px solid #040505;
+  border-left: 1px solid #040505;
+  border-bottom: 1px solid #57616b;
+  border-right: 1px solid #57616b;
+}
+
+a:active, a:link, a:visited, a:hover {
+  color: #FFFFFF;
+  text-decoration: none;
+}
+
+#header {
+  width: 800px;
+
+  margin: 10px auto;
+}
+
+h1 {
+  float: left;
+  margin: 0;
+
+  font-size: 35px;
+  font-weight: bold;
+}
+
+#menu {
+  clear: both;
+
+  display: block;
+  width: 800px;
+  height: 16px;
+
+  margin: 0 auto;
+  padding: 2px 0 0 0;
+
+  background: url(images/menu.png) #111111;
+  border-top: 1px solid #7a7a79;
+  border-left: 1px solid #7a7a79;
+  border-bottom: 1px solid #141414;
+  border-right: 1px solid #141414;
+}
+
+#menu li {
+  float: left;
+  list-style-type: none;
+  margin: 0 1px 0 -1px;
+  padding: 0;
+}
+
+#menu li a:active, #menu li a:link, #menu li a:visited, #menu li a:hover {
+  margin: 0;
+  padding: 2px 5px;
+  border-top: 1px solid #7a7a79;
+  border-left: 1px solid #7a7a79;
+  border-bottom: 1px solid #141414;
+  border-right: 1px solid #141414;
+  color: #FFFFFF;
+}
+
+#menu li a:hover {
+  border-top: 1px solid #141414;
+  border-left: 1px solid #141414;
+  border-bottom: 1px solid #7a7a79;
+  border-right: 1px solid #7a7a79;
+}
+
+#menu br {
+  clear: left;
+}
+
+#box {
+  width: 780px;
+
+  margin: 0 auto 10px auto;
+  padding: 10px;
+
+  border: 1px solid #707880;
+  border-top: none;
+  background-color: #1a1c1e;
+}
+
+#footer {
+  width: 800px;
+
+  margin: 10px auto;
+
+  text-align: right;
+}
+
+#footer, #footer * {
+  font-size: 9px;
+}
+
+#footer a:active, #footer a:link, #footer a:visited, #footer a:hover {
+  color: #FFFFFF;
+  text-decoration: underline;
+}
+
+#footer span {
+ float: left;
+}
+
+h2 {
+  margin: 0 0 10px 0;
+  padding: 0;
+}
+
+table {
+  width: 100%;
+  table-layout: fixed;
+  clear: both;
+  margin-bottom: 20px;
+
+  border-spacing: 0;
+}
+
+th, td {
+  padding: 1px 3px;
+
+  border: 1px outset #000000;
+}
+
+th {
+  text-align: left;
+  background: url(images/table_th.png) #111111;
+  border-top: 1px solid #7a7a79;
+  border-left: 1px solid #7a7a79;
+  border-bottom: 1px solid #141414;
+  border-right: 1px solid #141414;
+}
+
+th, th a:active, th a:link, th a:visited, th a:hover {
+  color: #FFFFFF;
+}
+
+td {
+  background-color: #22262a;
+  border-top: 1px solid #57616b;
+  border-left: 1px solid #57616b;
+  border-bottom: 1px solid #040505;
+  border-right: 1px solid #040505;
+}
+
+td.quote_public {
+  color: #00FF00;
+}
+
+td.quote_team {
+  color: #00FFFF;
+}
+
+span.playername, span.playername *, td.playername, td.playername * {
+  color: #FFFFFF;
+}
+
+td.playerothernames {
+  vertical-align: top;
+}
+
+span.quakecolor_black {
+  color: #000000;
+}
+
+span.quakecolor_red {
+  color: #FF0000;
+
+}
+
+span.quakecolor_green {
+  color: #00FF00;
+}
+
+span.quakecolor_yellow {
+  color: #FFFF00;
+}
+
+span.quakecolor_blue {
+  color: #0000FF;
+}
+
+span.quakecolor_cyan {
+  color: #00FFFF;
+}
+
+span.quakecolor_pink {
+  color: #FF00FF;
+}
+
+span.quakecolor_white {
+  color: #FFFFFF;
+}
+
+#update {
+  text-align: right;
+}
+
+#box_header {
+  width: 780px;
+  text-align: left;
+}
+
+#box_header span.box_title {
+  float: left;
+}
+
+#box_header span.box_select {
+  float: right;
+}
+

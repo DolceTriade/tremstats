@@ -1,0 +1,18 @@
+0.6.0_slux_rez8 - 'early 2009'
+-----
+Based on the slux mod release of 0.6.0.
+
+ * Major clean up of the log parser
+ * Support for parsing Lakitu7 QVM
+ * Log player name aliases
+ * Add list of all games with a game detail page
+ * Database structure was changed to support player aliases
+
+
+0.4
+-----
+
+This is the first public release of Tremstats. It contains the most important
+features, but database structure and parser may change up to version 1.0,
+so don't do to many changes to those both and keep your old logfiles. For
+information to the installation and other things, see the readme file.

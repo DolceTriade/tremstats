@@ -1,0 +1,36 @@
+# -*- coding: utf-8 -*-
+
+CONFIG = {}
+
+# Hostname of you MySQL-server
+CONFIG['MYSQL_HOSTNAME'] = ''
+
+# Username
+CONFIG['MYSQL_USERNAME'] = ''
+
+# Password
+CONFIG['MYSQL_PASSWORD'] = '' 
+
+# Database
+CONFIG['MYSQL_DATABASE'] = ''
+
+# Log file (do not work with '~', give absolute path)
+# In Windows, paths should be set as follows:
+# C:\\path\\to\\your\\games.log
+CONFIG['GAMES_LOG']      = '/path/to/your/games.log'
+
+# Directory which contains the archived game logs. Must be absolute.
+# You may either give the path or None, to use the default directory.
+CONFIG['ARCH_DIR']       = None
+
+# Directory which contains the PK3 files. Must be absolute.
+CONFIG['PK3_DIR']        = '/root/.tremulous/base/'
+
+# Name/Partname of unnamed nick (case sensitive)
+# Lakitu7's patch have these cvars: 
+#       set g_newbieNumbering 1
+#       set g_newbieNamePrefix "UnnamedPlayer #" 
+#       eg: UnnamedPlayer #0 ~ UnnamedPlayer #1 ~ etc...
+# Don't change the default value if you don't have the Lakitu7's patch set
+CONFIG['UNNAMED_PLAYER']  = ( 'UnnamedPlayer', 'Newbie#' )
+
