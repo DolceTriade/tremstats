@@ -1,4 +1,5 @@
-1.9.2 - January XX, 2010
+1.9.2 - January 18, 2010
+-----
 
  * Database fix for logging tyrant trample
      mysql -p -u db_username db_name < sql/upgrade_191_to_192_trample.sql

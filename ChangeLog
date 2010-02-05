@@ -1,6 +1,7 @@
 2010-01-18 Rezyn <rezyn0@gmail.com>
 	* Add privacy options to config.inc.php, mention this in README
 	* Change/fix destruction efficiency math
+	* release 1.9.2
 
 2010-01-09 Rezyn <rezyn0@gmail.com>
 	* fix escaping of html chars
