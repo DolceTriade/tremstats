@@ -102,6 +102,15 @@
           <?php if (!empty($log['vote_arg'])): echo $log['vote_arg']; endif; ?>
         </td>
 
+        <?php elseif (isset($log['endvote_gametime'])): ?>
+         <td><?php echo $log['endvote_gametime'] ?></td>
+         <td></td>
+         <td></td>
+         <td><span class="quakecolor_white"><?php if ($log['endvote_mode'] == 'public'): echo "vote"; else: echo "teamvote"; endif; ?></span></td>
+         <td>
+          <?php if( $log['endvote_pass'] == 'yes' ): echo "passed"; else: echo "failed"; endif; echo " ( " . $log['endvote_yes'] . " - " . $log['endvote_no'] . " )" ?>
+        </td>
+
         <?php elseif (isset($log['game_length'])): ?>
          <td><?php echo $log['game_length'] ?></td>
          <td></td>

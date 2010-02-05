@@ -1,5 +1,11 @@
 2009-12-07 Rezyn <rezyn0@gmail.com>
 	* fix map_details stage handling
+	* seperate database creation and setup into two question in setup.sh
+	* remove the tremstats folder appendage in setup.sh when copying www
+	files
+	* add note at end of setup.sh about copying the zip package to www
+	* support EndVote logging, and show results on game log page
+	* add result columns to votes TABLE
 
 2009-11-22 Rezyn <rezyn0@gmail.com>
 	* update jpgraph to 3.0.6, add a copy of it's license

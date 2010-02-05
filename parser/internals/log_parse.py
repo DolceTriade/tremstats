@@ -63,7 +63,10 @@ class Parser:
 		self.RE_REALTIME     = re.compile("^([0-9]+)/([0-9]+)/([0-9]+) ([0-9]+):([0-9]+):([0-9]+)$")
 
 					# CallVote: ID "name": VOTETYPE VOTEDATA
-		self.RE_VOTE         = re.compile("^([0-9]+) \"[^\"]*\": ([a-zA-Z0-9_]+) ?\"?([^\" ]+)? ?\"?([^\" ]+)?.*$");
+		self.RE_VOTE         = re.compile("^([0-9]+) \"[^\"]*\": ([a-zA-Z0-9_]+)[ \"]*([^\" ]*)[ \"]*([^\"]*).*$");
+
+					# EndVote: TEAM pass|fail YESCOUNT NOCOUNT MAXVOTERS
+		self.RE_ENDVOTE      = re.compile("^(global|alien|human) (pass|fail) ([0-9]+) ([0-9]+) ([0-9]+)$");
 
 		# Localize parents function
 		self.Check_map_in_database = Check_map_in_database
@@ -102,6 +105,7 @@ class Parser:
 		self.game_exit_time      = None
 		self.players             = {}
 		self.game_players        = {}
+		self.vote                = {}
 
 	""" Get weapon ids """
 	def Get_weapon_ids(self):
@@ -382,6 +386,8 @@ class Parser:
 			self.Log_Vote(gametime, line, None)
 		elif logtype == 'CallTeamVote':
 			self.Log_Vote(gametime, line, 'team')
+		elif logtype == 'EndVote':
+			self.Log_EndVote(gametime, line)
 
 		elif logtype == 'RealTime':
 			self.Log_RealTime(gametime, line)
@@ -1025,11 +1031,52 @@ class Parser:
 			votetype = 'draw'
 		elif votetype == 'set' and votearg1 == 'g_nextMap':
 			votetype = 'nextmap'
-			votearg1 = votearg2;
+			votearg1 = votearg2
+		elif votetype == 'echo' and votearg1 == 'poll':
+			votetype = 'poll'
+			votearg1 = votearg2
 
 		if victim_id != None and self.players[victim_id].has_key('id'):
 			victim_mysql_id = self.players[victim_id]['id']
 			votearg1 = None
 
 		self.dbc.execute("""INSERT INTO `votes` (`vote_game_id`, `vote_gametime`, `vote_player_id`, `vote_victim_id`, `vote_type`, `vote_arg`, `vote_mode`) VALUES (%s, %s, %s, %s, %s, %s, %s)""", (self.game_id, gametime, player_mysql_id, victim_mysql_id, votetype, votearg1, team))
+		self.dbc.execute("SELECT LAST_INSERT_ID()")
+		( self.vote[team], ) = self.dbc.fetchone()
+
+	""" A vote ended """
+	def Log_EndVote(self, gametime, line):
+		# Parse the line
+		match = self.RE_ENDVOTE.search(line)
+		if match == None:
+			return
+
+		result   = match.groups()
+		team     = result[0]
+		passed   = result[1]
+		yescount = result[2]
+		nocount  = result[3]
+		count    = result[4]
+
+		if passed == 'pass':
+			passed = 'yes'
+		else:
+			passed = 'no'
+
+		# Too late to change the database enum now
+		if team == 'global':
+			team = 'public'
+
+		if not self.vote.has_key(team):
+			return
+
+		self.dbc.execute("""UPDATE `votes` SET
+		                        `vote_pass` = %s,
+		                        `vote_yes` = %s,
+		                        `vote_no` = %s,
+		                        `vote_count` = %s,
+		                        `vote_endtime` = %s
+		                    WHERE `vote_id` = %s""",
+		                    (passed, yescount, nocount, count, gametime, self.vote[team]))
+		self.vote[team] = None
 

@@ -147,7 +147,7 @@ fi
 
 echo "Good! mysql seems to be ok"
 echo ""
-echo "I will now create and initialize the database '$MYSQL_NAME'"
+echo "I will now (optionally) create and initialize the database '$MYSQL_NAME'"
 echo "NOTE: if a database named '$MYSQL_NAME' exists, this will fail"
 echo "Enter 'yes' to create the database '$MYSQL_NAME' or 'no' to skip this step."
 read -p "Create database ? [yes/no] ]" INPUT
@@ -160,6 +160,14 @@ if [ "$INPUT" == "yes" ] ; then
     echo "installation aborted"
     exit
   fi
+else
+  echo " ** that was not a 'yes', database creation SKIPPED."
+fi
+
+echo "Enter 'yes' to setup the database structure for '$MYSQL_NAME' or 'no' to skip this step."
+echo "NOTE: by saying 'yes', any existing tremstats data in database '$MYSQL_NAME' will be lost"
+read -p "Setup database structure ? [yes/no] ]" INPUT
+if [ "$INPUT" == "yes" ] ; then
   echo "setting up essential data..."
   mysql -h $MYSQL_HOST -u $MYSQL_USER -p$MYSQL_PASS $MYSQL_NAME < sql/structure.sql
   mysql -h $MYSQL_HOST -u $MYSQL_USER -p$MYSQL_PASS $MYSQL_NAME < sql/data.sql
@@ -191,12 +199,13 @@ sed --in-place -e "s@define('TREMULOUS_SERVER_NAME', '[^']*\?')@define('TREMULOU
 
 if [ "$COPY_WEBSITE" == "yes" ] ; then
   echo "Copying 'web' directory to $PATH_WEBSITE"
-  mkdir -pv "$PATH_WEBSITE/tremstats"
-  cp -r web/* "$PATH_WEBSITE/tremstats"
+  mkdir -pv "$PATH_WEBSITE"
+  cp -r web/* "$PATH_WEBSITE"
 else
   echo "Copying 'web' skipped by request"
-  echo "  ** update $PATH_WEBSITE/tremstats/core/config.in.php manually"
+  echo "  ** update $PATH_WEBSITE/core/config.in.php manually"
 fi
+echo " ** NOTE: if you wish to make the tremstats package available from your website copy the tremstats_too_X_X_X.zip file into $PATH_WEBSITE"
 
 if [ "$COPY_PARSER" == "yes" ] ; then
   echo "Copying 'parser' to $PATH_PARSER"
@@ -211,7 +220,7 @@ echo ""
 echo "important locations:"
 echo " parser config = $PATH_PARSER/config.py"
 echo "               *default is in parser/config.py.default"
-echo " web configs   = $PATH_WEBSITE/tremstats/core/config.inc.php"
+echo " web configs   = $PATH_WEBSITE/core/config.inc.php"
 echo "               *default is in web/core/config.inc.php.default"
 echo " games.log     = $PATH_LOG"
 echo " maps          = $PATH_MAPS"

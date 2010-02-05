@@ -102,7 +102,11 @@ $votes = $db->GetAll("SELECT players.player_name AS caller_name,
                              vote_gametime,
                              vote_mode,
                              vote_type,
-                             vote_arg
+                             vote_arg,
+                             vote_endtime,
+                             vote_pass,
+                             vote_yes,
+                             vote_no
                         FROM votes
                         INNER JOIN players ON vote_player_id = player_id
                         LEFT JOIN players AS victim ON vote_victim_id = victim.player_id
@@ -134,6 +138,14 @@ endforeach;
 
 foreach ($votes as $vote):
   $logs[$vote['vote_gametime'].'.'.$N++]=$vote;
+  if( !empty( $vote['vote_endtime'] ) ):
+    $logs[$vote['vote_endtime'].'.'.$N++]=
+      array( 'endvote_gametime' => $vote['vote_endtime'],
+             'endvote_mode' => $vote['vote_mode'],
+             'endvote_pass' => $vote['vote_pass'],
+             'endvote_yes' => $vote['vote_yes'],
+             'endvote_no' => $vote['vote_no'] );
+  endif;
 endforeach;
 
 $logs[$game_details['game_length'].'.'.$N++]=$game_details;
