@@ -660,6 +660,8 @@ class Parser:
 			mysql_id = result[0]
 			if result[1] != player_name:
 				self.dbc.execute("UPDATE `players` SET `player_name` = %s, `player_name_uncolored` = %s, `player_last_game_id` = %s, `player_last_gametime` = %s WHERE `player_id` = %s", (player_name, player_name_uncolored, self.game_id, self.game_timestamp, mysql_id))
+			else:
+				self.dbc.execute("UPDATE `players` SET `player_last_game_id` = %s, `player_last_gametime` = %s WHERE `player_id` = %s", (self.game_id, self.game_timestamp, mysql_id))
 			self.dbc.execute("SELECT `nick_name`, `nick_id` FROM `nicks` WHERE `nick_player_id` = %s AND `nick_name_uncolored` = %s", (mysql_id, player_name_uncolored))
 			result = self.dbc.fetchone()
 			if result == None:
