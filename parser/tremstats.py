@@ -51,6 +51,7 @@ class Tremstats:
 		self.parseonly         = False
 		self.one_pk3           = None
 		self.reparse           = False
+		self.clear_ids         = False
 		self.maps              = {}
 		self.players_to_update = []
 
@@ -89,11 +90,44 @@ class Tremstats:
 			self.dbc.execute("TRUNCATE `games`")
 			self.dbc.execute("TRUNCATE `map_stats`")
 			self.dbc.execute("TRUNCATE `per_game_stats`")
-			self.dbc.execute("TRUNCATE `players`")
-			self.dbc.execute("TRUNCATE `nicks`")
 			self.dbc.execute("TRUNCATE `says`")
 			self.dbc.execute("TRUNCATE `votes`")
 			self.dbc.execute("TRUNCATE `state`")
+
+			if self.clear_ids == True:
+				print "clearing player ids..."
+				self.dbc.execute("TRUNCATE `players`")
+				self.dbc.execute("TRUNCATE `nicks`")
+			else:
+				print "NOT clearing player ids, if this was desired use --clear-ids"
+				self.dbc.execute("""UPDATE `players` SET
+				                    player_games_played = DEFAULT,
+				                    player_first_game_id = DEFAULT,
+				                    player_first_gametime = DEFAULT,
+				                    player_last_game_id = DEFAULT,
+				                    player_last_gametime = DEFAULT,
+				                    player_game_time_factor = DEFAULT,
+				                    player_kill_efficiency = DEFAULT,
+				                    player_destruction_efficiency = DEFAULT,
+				                    player_total_efficiency = DEFAULT,
+				                    player_kills = DEFAULT,
+				                    player_kills_alien = DEFAULT,
+				                    player_kills_human = DEFAULT,
+				                    player_teamkills = DEFAULT,
+				                    player_teamkills_alien = DEFAULT,
+				                    player_teamkills_human = DEFAULT,
+				                    player_deaths = DEFAULT,
+				                    player_deaths_enemy = DEFAULT,
+				                    player_deaths_enemy_alien = DEFAULT,
+				                    player_deaths_enemy_human = DEFAULT,
+				                    player_deaths_team_alien = DEFAULT,
+				                    player_deaths_team_human = DEFAULT,
+				                    player_deaths_world_alien = DEFAULT,
+				                    player_deaths_world_human = DEFAULT,
+				                    player_time_alien = DEFAULT,
+				                    player_time_human = DEFAULT,
+				                    player_time_spec = DEFAULT,
+				                    player_score_total = DEFAULT""")
 
 		# Parse log
 		if self.calconly == False:
@@ -120,6 +154,7 @@ class Tremstats:
 					print "----------------------------------------------------"
 					print "--help:        Print this help"
 					print "--reparse:     Reparses all archived logs"
+					print "--clear-ids:   Clear player ids when reparsing logs"
 					print "--calconly:    Only calculate data for MySQL"
 					print "--parseonly:   Only parse the log file (debugging)"
 					print "--pk3only:     Only fetch data from PK3s"
@@ -138,6 +173,8 @@ class Tremstats:
 					self.pk3only = True
 				elif arg_data[0] == '--reparse':
 					self.reparse = True
+				elif arg_data[0] == '--clear-ids':
+					self.clear_ids = True
 				else:
 					sys.exit("Invalid arguments, see `tremstats.py --help`")
 			elif len(arg_data) == 2:

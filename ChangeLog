@@ -1,3 +1,7 @@
+2010-02-04 Rezyn <rezyn0@gmail.com>
+	* Do not clear player ids by default with --reparse
+	* Add --clear-ids to clear player ids when using --reparse
+
 2010-02-02 Rezyn <rezyn0@gmail.com>
 	* Add a vote summary page
 

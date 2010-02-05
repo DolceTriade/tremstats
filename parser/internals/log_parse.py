@@ -647,7 +647,7 @@ class Parser:
 		t = self.Gametime_seconds(gametime)
 
 		# Check against MySQL
-		self.dbc.execute("SELECT `player_id`, `player_name` FROM `players` WHERE `player_qkey` = %s", (player_qkey))
+		self.dbc.execute("SELECT `player_id`, `player_name`, `player_first_game_id` FROM `players` WHERE `player_qkey` = %s", (player_qkey))
 		result = self.dbc.fetchone()
 		if result == None:
 			# We have to insert this as new player
@@ -657,11 +657,18 @@ class Parser:
 			mysql_id = result[0]
 			self.dbc.execute("INSERT INTO `nicks` (`nick_player_id`, `nick_name_uncolored`, `nick_name`) VALUES (%s, %s, %s)", (mysql_id, player_name_uncolored, player_name))
 		else:
+			# update basic player info
 			mysql_id = result[0]
 			if result[1] != player_name:
 				self.dbc.execute("UPDATE `players` SET `player_name` = %s, `player_name_uncolored` = %s, `player_last_game_id` = %s, `player_last_gametime` = %s WHERE `player_id` = %s", (player_name, player_name_uncolored, self.game_id, self.game_timestamp, mysql_id))
 			else:
 				self.dbc.execute("UPDATE `players` SET `player_last_game_id` = %s, `player_last_gametime` = %s WHERE `player_id` = %s", (self.game_id, self.game_timestamp, mysql_id))
+
+			# check if this player has played before (happens with --reparse --keep)
+			if result[2] == 0:
+				self.dbc.execute("UPDATE `players` SET `player_first_game_id` = %s, `player_first_gametime` = %s WHERE `player_id` = %s", (self.game_id, self.game_timestamp, mysql_id))
+
+			# update nickname
 			self.dbc.execute("SELECT `nick_name`, `nick_id` FROM `nicks` WHERE `nick_player_id` = %s AND `nick_name_uncolored` = %s", (mysql_id, player_name_uncolored))
 			result = self.dbc.fetchone()
 			if result == None:
