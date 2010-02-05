@@ -205,7 +205,6 @@ else
   echo "Copying 'web' skipped by request"
   echo "  ** update $PATH_WEBSITE/core/config.in.php manually"
 fi
-echo " ** NOTE: if you wish to make the tremstats package available from your website copy the tremstats_too_X_X_X.zip file into $PATH_WEBSITE"
 
 if [ "$COPY_PARSER" == "yes" ] ; then
   echo "Copying 'parser' to $PATH_PARSER"

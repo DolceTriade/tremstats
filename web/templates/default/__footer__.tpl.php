@@ -9,7 +9,7 @@
         ?>
         seconds )
       </span>
-      <span id="footer_release"><a href="tremstats-too-<?php echo VERSION; ?>.zip">Tremstats Too v<?php echo VERSION; ?></a></span><br>
+      <span id="footer_release"><a href="http://rezyn.mercenariesguild.net">Tremstats Too v<?php echo VERSION; ?></a></span><br>
       <span id="footer_credits"> by Rezyn ~ original by <a href="http://www.dasprids.de" title="DASPRiD's">DASPRiD</a></span>
     </div>
   </body>

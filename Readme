@@ -1,4 +1,4 @@
-Tremstats Too 1.9.0
+Tremstats Too 1.9.1
 For Tremulous 1.2 games.log
 
 Requirements
@@ -30,10 +30,10 @@ To make it slightly easier, a setup.sh script is included which will walk
 you through setting up the initial database config files. (needs bash)
 
 First you have to setup your MySQL database. So create a new database or change
-to an existing one. Then execute the both SQL files 'structure.sql' and
+to an existing one. Then execute both of the SQL files 'structure.sql' and
 'data.sql'.
 
-Now copy all files from the 'input' directory to a directory on your Tremulous
+Now copy all files from the 'parser' directory to a directory on your Tremulous
 server, for example '/usr/local/games/tremstats/'. Then give the mainfile
 execute rights by typing 'chmod a+x tremstats.py'.
 
@@ -53,7 +53,7 @@ If you use crontab, you can enter the following line into '/etc/crontab':
 For further information about crontab, see Google.
 
 Now, as you have setup all important things, you also want to see some output.
-So copy all files from 'output' to a directory reachable from the internet.
+So copy all files from 'web' to a directory reachable from the internet.
 Edit the file 'core/config.inc.php' and enter your MySQL data here again. The
 last setting in this file is the address of your tremulous server. This
 should be something like 'localhost:30720' or an external address. If you
@@ -88,7 +88,7 @@ I want to thank Ingar, who supported me with a lot of knowledge about linux
 and helped me to test the parser several times. He also patched Tremulous for
 me.
 
-Then I want to thank WolfWings, who wrote the patch for Tremulours, very good
+Then I want to thank WolfWings, who wrote the patch for Tremulous, very good
 work.
 
 Also a big thanks to Gilmor, who found the cause for this nasty bug of unlogged
@@ -106,12 +106,12 @@ Contact
 DO NOT Contact DASPRiD about problems with this 'Tremstats Too' fork,
 please contact Rezyn.
 -------------------------------------------------------------------------------
-Tremstats Too 1.9.0
-  Changes since 0.6.0 that are in this packaged release
+Tremstats Too 1.9.1
 
 Name:    Rezyn
-E-Mail:  rezyn0@gmail.com
-Website: fixme :(
+E-Mail:  johne@verizon.net
+Website: http://rezyn.mercenariesguild.net
+IRC:     find me in #tremulous on freenode.net
 
 -------------------------------------------------------------------------------
 Tremstats 0.6.0:

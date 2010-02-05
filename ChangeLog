@@ -1,8 +1,14 @@
+2009-12-08 Rezyn <rezyn0@gmail.com>
+	* decided to make footer link to tremstats too homepage instead of
+	  a local zip file
+	* clean up Readme for typos and incorrect folder names
+	* release 1.9.1
+
 2009-12-07 Rezyn <rezyn0@gmail.com>
 	* fix map_details stage handling
 	* seperate database creation and setup into two question in setup.sh
 	* remove the tremstats folder appendage in setup.sh when copying www
-	files
+	  files
 	* add note at end of setup.sh about copying the zip package to www
 	* support EndVote logging, and show results on game log page
 	* add result columns to votes TABLE

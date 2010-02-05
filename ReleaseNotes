@@ -1,3 +1,13 @@
+1.9.1 - December 8, 2009
+-----
+
+ * Database structure for votes table changed, if upgrading:
+    mysql -p -u db_username db_name < sql/upgrade_190_to_191.sql
+ * Fix stages on map details page
+ * Log vote results, and show them on game log page
+ * Updates to setup.sh
+
+
 1.9.0 - November 22, 2009
 -----
 First release of Tremstats Too, supports Tremulous 1.2 beta games.log.
