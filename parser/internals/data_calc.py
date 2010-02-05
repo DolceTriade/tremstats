@@ -79,13 +79,12 @@ class Calculator:
 			                             ON `destruct_building_id` = `building_id`
 			                            AND `destruct_player_id` = %s
 			                      WHERE `destruct_id` IS NOT NULL
-			                    ) / ((SELECT COUNT(*) FROM `destructions` WHERE `destruct_player_id` = %s) + 1)
-			                      / (`player_deaths_enemy` + 1), 0),
+			                    ) / 5 / (`player_deaths_enemy` + 1), 0),
 
                                             `player_total_efficiency` = `player_kill_efficiency` + `player_destruction_efficiency`
 
 			                    WHERE `player_id` = %s
-			                 """, (player_id, player_id, player_id))
+			                 """, (player_id, player_id))
 
 			# Update the progressbar
 			if pbar != None:

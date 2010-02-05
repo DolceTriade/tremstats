@@ -2,6 +2,8 @@
 
  * Database fix for logging tyrant trample
      mysql -p -u db_username db_name < sql/upgrade_191_to_192_trample.sql
+ * Destruction Efficiency math changed, to update all players without
+     reparsing run: ./tremstats.py --calconly
  * Add privacy options
  * Fix html escaping
  * Fix human stage time logging
