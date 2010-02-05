@@ -989,7 +989,7 @@ class Parser:
 			if stage == '2':
 				self.game_stage_human2 = gametime
 			elif stage == '3':
-				self.game_stage_human2 = gametime
+				self.game_stage_human3 = gametime
 
 	""" A Player called a vote """
 	def Log_Vote(self, gametime, line, team):
