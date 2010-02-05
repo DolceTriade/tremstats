@@ -3,7 +3,7 @@
  * Project:     Tremstats
  * File:        player_getsig.php
  *
- * For licence and version information, see /index.php
+ * For license and version information, see /index.php
  */
 
 require_once 'core/init.inc.php';

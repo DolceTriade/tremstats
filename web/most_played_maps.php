@@ -3,7 +3,7 @@
  * Project:     Tremstats
  * File:        most_played_maps.php
  *
- * For licence and version information, see /index.php
+ * For license and version information, see /index.php
  */
 
 require_once 'core/init.inc.php';

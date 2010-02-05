@@ -3,7 +3,7 @@
  * Project:     Tremstats
  * File:        tiny_templating.inc.php
  *
- * For licence and version information, see /index.php
+ * For license and version information, see /index.php
  */
 
 class tiny_templating {

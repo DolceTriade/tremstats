@@ -3,7 +3,7 @@
  * Project:     Tremstats
  * File:        lib.inc.php
  *
- * For licence and version information, see /index.php
+ * For license and version information, see /index.php
  */
 
 function AdoDB_Count_Handler ($query, $args) {
