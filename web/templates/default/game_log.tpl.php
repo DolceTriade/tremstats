@@ -65,40 +65,42 @@
 
         <?php elseif (isset($log['kill_gametime'])): ?>
          <td><?php echo $log['kill_gametime'] ?></td>
-         <td class="playername"><?php if (!empty($log['killer_id'])): ?><a href="player_details.php?player_id=<?php echo $log['killer_id']; ?>"><?php echo replace_color_codes(htmlspecialchars($log['killer_name'])) ?></a><? endif; ?></td>
+         <td class="playername"><?php if (!empty($log['killer_id'])): ?><a href="player_details.php?player_id=<?php echo $log['killer_id']; ?>"><?php echo replace_color_codes(htmlspecialchars($log['killer_name'])) ?></a><?php endif; ?></td>
          <td><?php if (!empty($log['weapon_icon'])): ?><img src="images/icons/<?php echo $log['weapon_icon']; ?>" alt="<?php echo $log['weapon_name']; ?>" <?php list($width, $height, $type, $attr) = getimagesize('images/icons/'.$log['weapon_icon']); echo $attr; ?>><?php endif; ?></td>
          <td><?php if ($log['kill_type'] == 'team'): ?><span class="quakecolor_red">teamkilled</a><?php elseif ($log['kill_type'] == 'enemy'): ?>killed<?php elseif (!empty($log['weapon_icon'])): ?>killed<?php endif; ?></td>
-         <td><?php if (!empty($log['victim_id'])): ?><a href="player_details.php?player_id=<?php echo $log['victim_id']; ?>"><?php echo replace_color_codes(htmlspecialchars($log['victim_name'])) ?></a><? endif; ?><?php if (empty($log['weapon_icon'])): ?> died by <?php echo $log['weapon_name']; endif;?></td>
+         <td><?php if (!empty($log['victim_id'])): ?><a href="player_details.php?player_id=<?php echo $log['victim_id']; ?>"><?php echo replace_color_codes(htmlspecialchars($log['victim_name'])) ?></a><?php endif; ?><?php if (empty($log['weapon_icon'])): ?> died by <?php echo $log['weapon_name']; endif;?></td>
 
         <?php elseif (isset($log['destruct_gametime'])): ?>
          <td><?php echo $log['destruct_gametime'] ?></td>
-         <td class="playername"><?php if (!empty($log['player_id'])): ?><a href="player_details.php?player_id=<?php echo $log['player_id']; ?>"><?php echo replace_color_codes(htmlspecialchars($log['player_name'])) ?></a><? endif; ?></td>
-         <td><?php if (!empty($log['weapon_icon'])): ?><img src="images/icons/<?php echo $log['weapon_icon']; ?>" alt="<?php echo $log['weapon_name']; ?>" <?php list($width, $height, $type, $attr) = getimagesize('images/icons/'.$log['weapon_icon']); echo $attr; ?>><<?php else: ?>$log['weapon_name']<?php endif; ?>/td>
+         <td class="playername"><?php if (!empty($log['player_id'])): ?><a href="player_details.php?player_id=<?php echo $log['player_id']; ?>"><?php echo replace_color_codes(htmlspecialchars($log['player_name'])) ?></a><?php endif; ?></td>
+         <td><?php if (!empty($log['weapon_icon'])): ?><img src="images/icons/<?php echo $log['weapon_icon']; ?>" alt="<?php echo $log['weapon_name']; ?>" <?php list($width, $height, $type, $attr) = getimagesize('images/icons/'.$log['weapon_icon']); echo $attr; ?>><?php endif; ?></td>
          <td><?php if ($log['weapon_team'] == $log['building_team'] ): ?><span class="quakecolor_yellow">destroyed</span> <?php else: ?>destroyed <?php endif; ?></td>
-         <td><img src="images/icons/<?php echo $log['building_icon']; ?>" <?php list($width, $height, $type, $attr) = getimagesize('images/icons/'.$log['building_icon']); echo $attr; ?>> <?php echo $log['building_name'] ?></td>
+         <td><img src="images/icons/<?php echo $log['building_icon']; ?>" <?php list($width, $height, $type, $attr) = getimagesize('images/icons/'.$log['building_icon']); echo $attr; ?>> <?php echo $log['building_name'] ?>
+             <?php if( empty($log['weapon_icon'] )): ?> by <?php echo $log['weapon_name']; endif; ?>
+         </td>
 
         <?php elseif (isset($log['build_gametime'])): ?>
          <td><?php echo $log['build_gametime'] ?></td>
-         <td class="playername"><?php if (!empty($log['player_id'])): ?><a href="player_details.php?player_id=<?php echo $log['player_id']; ?>"><?php echo replace_color_codes(htmlspecialchars($log['player_name'])) ?></a><? endif; ?></td>
+         <td class="playername"><?php if (!empty($log['player_id'])): ?><a href="player_details.php?player_id=<?php echo $log['player_id']; ?>"><?php echo replace_color_codes(htmlspecialchars($log['player_name'])) ?></a><?php endif; ?></td>
          <td></td>
          <td><span class="quakecolor_green">built</span></td>
          <td><img src="images/icons/<?php echo $log['building_icon']; ?>" <?php list($width, $height, $type, $attr) = getimagesize('images/icons/'.$log['building_icon']); echo $attr; ?>> <?php echo $log['building_name'] ?></td>
 
         <?php elseif (isset($log['decon_gametime'])): ?>
          <td><?php echo $log['decon_gametime'] ?></td>
-         <td class="playername"><?php if (!empty($log['player_id'])): ?><a href="player_details.php?player_id=<?php echo $log['player_id']; ?>"><?php echo replace_color_codes(htmlspecialchars($log['player_name'])) ?></a><? endif; ?></td>
+         <td class="playername"><?php if (!empty($log['player_id'])): ?><a href="player_details.php?player_id=<?php echo $log['player_id']; ?>"><?php echo replace_color_codes(htmlspecialchars($log['player_name'])) ?></a><?php endif; ?></td>
          <td></td>
          <td><span class="quakecolor_yellow">deconned</a></td>
          <td><img src="images/icons/<?php echo $log['building_icon']; ?>" <?php list($width, $height, $type, $attr) = getimagesize('images/icons/'.$log['building_icon']); echo $attr; ?>> <?php echo $log['building_name'] ?></td>
 
         <?php elseif (isset($log['vote_gametime'])): ?>
          <td><?php echo $log['vote_gametime'] ?></td>
-         <td class="playername"><?php if (!empty($log['caller_id'])): ?><a href="player_details.php?player_id=<?php echo $log['caller_id']; ?>"><?php echo replace_color_codes(htmlspecialchars($log['caller_name'])) ?></a><? endif; ?></td>
+         <td class="playername"><?php if (!empty($log['caller_id'])): ?><a href="player_details.php?player_id=<?php echo $log['caller_id']; ?>"><?php echo replace_color_codes(htmlspecialchars($log['caller_name'])) ?></a><?php endif; ?></td>
          <td></td>
          <td><span class="quakecolor_magenta"><?php if ($log['vote_mode'] == 'public'): echo "vote"; else: echo "teamvote"; endif; ?></span></td>
          <td>
           <?php echo $log['vote_type']; ?>
-          <?php if (!empty($log['victim_id'])): ?><a href="player_details.php?player_id=<?php echo $log['victim_id']; ?>"><?php echo replace_color_codes(htmlspecialchars($log['victim_name'])) ?></a><? endif; ?>
+          <?php if (!empty($log['victim_id'])): ?><a href="player_details.php?player_id=<?php echo $log['victim_id']; ?>"><?php echo replace_color_codes(htmlspecialchars($log['victim_name'])) ?></a><?php endif; ?>
           <?php if (!empty($log['vote_arg'])): echo $log['vote_arg']; endif; ?>
         </td>
 

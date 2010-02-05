@@ -1,4 +1,7 @@
 2009-12-09 Rezyn <rezyn0@gmail.com>
+	* fix markup bug in game_log page
+
+2009-12-09 Rezyn <rezyn0@gmail.com>
 	* force a 0-100 bar scale in _graph.php
 
 2009-12-08 Rezyn <rezyn0@gmail.com>
