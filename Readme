@@ -20,18 +20,9 @@ Rezyn Notes:
    from that point on the next run. logs with unfinished games are also
    handled properly.
 
-Patching Tremulous
+QVM compatibility
 -------------------------------------------------------------------------------
-For logging team kills, you need to patch your Tremulous server with the patch
-in the 'LogTeamClass.patch' in the 'trempatch' directory. As of version 6.0,
-95% of all teamkills can also logged with unpatched version. With Tremulous
-1.2, the patch will be included, so there will be no need anymore to patch
-Tremulous.
-
-I won't explain, how you patch Tremulous. If you don't know it, ask in the
-forums or in the IRC channel. I got my version patched by a friend, so I don't
-even really know, how to do it, so don't ask me.
-
+For logging team kills, you need a QVM newer than the original 1.1 qvm.
 
 
 Installation
@@ -57,6 +48,7 @@ If you use crontab, you can enter the following line into '/etc/crontab':
 For further information about crontab, see Google.
 
 Last but not least, add the setting 'set g_logsync 0' to your server.cfg.
+( I see no need for g_logsync in my version of tremstats - Rezyn )
 
 Now, as you have setup all important things, you also want to see some output.
 So copy all files from 'output' to a directory reachable from the internet.
@@ -110,6 +102,16 @@ information and gave me lots of tips. Your are the best!
 Contact
 -------------------------------------------------------------------------------
 You like Tremstats and want to contact me? Well, there are several ways.
+
+Tremstats 0.6.0-rezX
+  Changes since 0.6.0 that are in this packaged release
+
+Name:    Rezyn
+E-Mail:  rezyn0@gmail.com
+Website: fixme :(
+
+Tremstats 0.6.0:
+  Original tremstats release by DASPRID
 
 Name:    Ben 'DASPRiD' Scholzen
 Jabber:  dasprid@jabber.org
