@@ -18,7 +18,8 @@
     </colgroup>
 
     <?php foreach ($styles AS $style):
-      $base      = "http://" . $_SERVER['HTTP_HOST'] . substr($_SERVER['SCRIPT_NAME'], 0, strrpos($_SERVER['SCRIPT_NAME'], "/")+1);
+      $path      = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+      $base      = "http://" . $_SERVER['HTTP_HOST'] . substr($path, 0, strrpos($path, "/") + 1 );
       $playerurl = $base . "player_details.php?player_id=" . $this->player_details['player_id'];
       $sigurl    = $base . "player_sig.php?player_id=" . $this->player_details['player_id'] . "&amp;style=" . $style['id'];
       $imgurl    = "&lt;img src=&quot;" . $sigurl . "&quot; width=&quot;" . $style['width'] . "&quot; height=&quot;" . $style['height'] . "&quot;&gt;";

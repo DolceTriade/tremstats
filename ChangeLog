@@ -3,6 +3,7 @@
 	* fix php syntax on game log page
 	* fix game_stage_human2 being used for stage 3 in log parser
 	* fix MOD_LEVEL4_TRAMPLE logging (s/CHARGE/TRAMPLE/g)
+	* allow server URL rewriting
 
 2009-12-09 Rezyn <rezyn0@gmail.com>
 	* fix markup bug in game_log page

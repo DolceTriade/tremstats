@@ -80,7 +80,7 @@ function replace_color_codes ($string) {
 }
 
 function custom_sort ($sort_title, $sort_name) {
-  $current_file = $_SERVER['SCRIPT_NAME'];
+  $current_file = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
   $custom_sort  = (isset($_GET['custom_sort']) ? $_GET['custom_sort']: null);
   $custom_dir   = (isset($_GET['custom_dir']) ? $_GET['custom_dir']: 'desc');
 
