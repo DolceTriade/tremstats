@@ -105,13 +105,13 @@
     <tbody>
       <tr>
         <td>Alien Wins</td>
-        <td><?php echo $this->map_details['mapstat_alien_wins'] - $this->stage_alien3['count'] - $this->stage_alien2['count']; ?></td>
+        <td><?php echo $this->map_details['mapstat_alien_wins'] - $this->stage_alien2['count']; ?></td>
         <td><?php echo $this->stage_alien2['count'] - $this->stage_alien3['count']; ?></td>
         <td><?php echo $this->stage_alien3['count']; ?></td>
       </tr>
       <tr>
         <td>Human Wins</td>
-        <td><?php echo $this->map_details['mapstat_human_wins'] - $this->stage_human3['count'] - $this->stage_human2['count']; ?></td>
+        <td><?php echo $this->map_details['mapstat_human_wins'] - $this->stage_human2['count']; ?></td>
         <td><?php echo $this->stage_human2['count'] - $this->stage_human3['count']; ?></td>
         <td><?php echo $this->stage_human3['count']; ?></td>
       </tr>

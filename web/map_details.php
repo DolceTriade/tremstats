@@ -47,11 +47,11 @@ $stage_alien3 = $db->GetRow("SELECT COUNT(game_id) AS count
                                array($map_details['map_id']));
 $stage_human2 = $db->GetRow("SELECT COUNT(game_id) AS count
                                FROM games
-                               WHERE game_map_id = ? AND game_winner = 'aliens' AND game_stage_human2 != 'null'",
+                               WHERE game_map_id = ? AND game_winner = 'humans' AND game_stage_human2 != 'null'",
                                array($map_details['map_id']));
 $stage_human3 = $db->GetRow("SELECT COUNT(game_id) AS count
                                FROM games
-                               WHERE game_map_id = ? AND game_winner = 'aliens' AND game_stage_human3 != 'null'",
+                               WHERE game_map_id = ? AND game_winner = 'humans' AND game_stage_human3 != 'null'",
                                array($map_details['map_id']));
 
 $stage_speeds = $db->GetRow("SELECT MIN(game_stage_alien2) AS alien_s2,

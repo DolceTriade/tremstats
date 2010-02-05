@@ -1,3 +1,6 @@
+2009-12-07 Rezyn <rezyn0@gmail.com>
+	* fix map_details stage handling
+
 2009-11-22 Rezyn <rezyn0@gmail.com>
 	* update jpgraph to 3.0.6, add a copy of it's license
 	  and remove the flags data which will never be used
