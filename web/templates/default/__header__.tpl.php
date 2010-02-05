@@ -27,7 +27,8 @@
       </li><li><a href="top_feeders.php">Feeders</a>
       </li><li><a href="top_teamkillers.php">Team Killers</a>
       </li><li><a href="most_active_players.php">Most Active Players</a>
-      </li><li><a href="most_played_maps.php">Most Played Maps</a>
+      </li><li><a href="votes.php">Votes</a>
+      </li><li><a href="most_played_maps.php">Maps</a>
       </li><li><a href="map_balance.php">Balance</a>
       </li><li><a href="games.php">Games</a></li>
     </ul>

@@ -1,3 +1,11 @@
+2010-02-02 Rezyn <rezyn0@gmail.com>
+	* Add a vote summary page
+
+2010-01-29 Rezyn <rezyn0@gmail.com>
+	* Fix last seen time update
+	* Add favorite victim and nemesis to player details
+	* Add --db and --pw tremstats.py options
+
 2010-01-18 Rezyn <rezyn0@gmail.com>
 	* Add privacy options to config.inc.php, mention this in README
 	* Change/fix destruction efficiency math
