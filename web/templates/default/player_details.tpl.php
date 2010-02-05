@@ -252,10 +252,10 @@
           <?php foreach($this->player_nicks as $other_nick): ?>
             <td class="playername">
               <?php echo replace_color_codes($other_nick['nick_name']); ?>
-              <?php if ( $column == 2):  ?>
-                </tr><tr>
-              <?php $column = 0; else: $column++; endif; ?>
             </td>
+            <?php if ( $column == 2): ?>
+              </tr><tr>
+            <?php $column = 0; else: $column++; endif; ?>
           <?php endforeach; ?>
           <?php while( $column < 3 ): $column++; echo "<td></td>"; endwhile; ?>
         <?php endif; ?>
