@@ -24,6 +24,16 @@ Note: Windows specific code has been removed from the log parser, this plus
 
 
 
+Privacy
+-------------------------------------------------------------------------------
+By default everything is enabled for viewing from the web, including player
+chat and name aliases.
+
+You may wish to protect some of your player's privacy by disabling the PRIVACY
+options in web/core/config.inc.php by setting them to '1'.
+
+
+
 Installation
 -------------------------------------------------------------------------------
 To make it slightly easier, a setup.sh script is included which will walk

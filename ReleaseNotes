@@ -1,3 +1,13 @@
+1.9.2 - January XX, 2010
+
+ * Database fix for logging tyrant trample
+     mysql -p -u db_username db_name < sql/upgrade_191_to_192_trample.sql
+ * Add privacy options
+ * Fix html escaping
+ * Fix human stage time logging
+ * fix game log syntax (#112)
+ * fix url rewriting (#115)
+
 1.9.1 - December 8, 2009
 -----
 

@@ -61,4 +61,21 @@ define('TREMULOUS_SERVER_NAME', 'Tremulous 1.2 server');
  * use 'localhost:30720'.
  */
 define('TREMULOUS_ADDRESS', '');
+
+/**
+ * Privacy settings
+ * set to 1 to hide information
+ */
+// Disable games log
+define('PRIVACY_LOGS', '0');
+
+// Hide chat in games log
+define('PRIVACY_CHAT', '0');
+
+// Hide random quote
+define('PRIVACY_QUOTE', '0');
+
+// Hide alias names in player details
+define('PRIVACY_NAME', '0');
+
 ?>

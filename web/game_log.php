@@ -132,9 +132,11 @@ foreach ($destructs as $destruct):
   $logs[$destruct['destruct_gametime'].'.'.$N++]=$destruct;
 endforeach;
 
-foreach ($says as $say):
-  $logs[$say['say_gametime'].'.'.$N++]=$say;
-endforeach;
+if( constant('PRIVACY_CHAT') != '1' ):
+  foreach ($says as $say):
+    $logs[$say['say_gametime'].'.'.$N++]=$say;
+  endforeach;
+endif;
 
 foreach ($votes as $vote):
   $logs[$vote['vote_gametime'].'.'.$N++]=$vote;

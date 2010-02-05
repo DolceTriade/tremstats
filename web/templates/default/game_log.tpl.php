@@ -37,6 +37,10 @@
     </tbody>
   </table>
 
+  <?php if( constant('PRIVACY_CHAT') == '1' && constant('PRIVACY_LOGS') != '1' ): ?>
+    <div class="privacy">( Player chat messages are not shown )</div>
+  <?php endif; ?>
+
   <table>
     <colgroup>
       <col class="data" />
@@ -52,7 +56,11 @@
      <th></td>
      <th>Action</td>
      <th></td>
-      <?php if (isset($this->logs) and count($this->logs)): ?>
+      <?php if( constant('PRIVACY_LOGS') == '1' ): ?>
+        <tr>
+          <td colspan="5">Game logs are disabled for privacy</td>
+        </tr>
+      <?php elseif (isset($this->logs) and count($this->logs)): ?>
 
       <?php foreach ($this->logs AS $log): ?>
        <tr class="list" >
@@ -132,7 +140,7 @@
       <?php endforeach; ?>
       <?php else: ?>
         <tr>
-          <td colspan="4">No action occured</td>
+          <td colspan="5">No action occured</td>
         </tr>
       <?php endif; ?>
     </tbody>

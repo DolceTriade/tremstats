@@ -56,12 +56,16 @@ $player_nicks = $db->GetAll("SELECT nick_name
                               array($player_details['player_id']));
 
 // Random quote
-$random_quote = $db->GetRow("SELECT say_mode, say_message
-                             FROM says
-                             WHERE say_player_id = ?
-                             ORDER BY RAND()
-                             LIMIT 0, 1",
-                             array($player_details['player_id']));
+if( constant('PRIVACY_QUOTE') == '1' ):
+  $random_quote = '';
+else:
+  $random_quote = $db->GetRow("SELECT say_mode, say_message
+                               FROM says
+                               WHERE say_player_id = ?
+                               ORDER BY RAND()
+                               LIMIT 0, 1",
+                               array($player_details['player_id']));
+endif;
 
 // Prefered weapons
 $weapon_kills = $db->GetAll("SELECT COUNT(kill_id) AS weapon_count,

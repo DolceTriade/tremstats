@@ -40,12 +40,14 @@ if( !isset($stats['player_id']) ):
   die ("player id not found");
 endif;
 
-$random_quote = $db->GetRow("SELECT say_message
-                             FROM says
-                             WHERE say_player_id = ?
-                             ORDER BY RAND()
-                             LIMIT 0, 1",
-                             array($_GET['player_id']));
+if( constant('PRIVACY_QUOTE') != '1' ):
+  $random_quote = $db->GetRow("SELECT say_message
+                               FROM says
+                               WHERE say_player_id = ?
+                               ORDER BY RAND()
+                               LIMIT 0, 1",
+                               array($_GET['player_id']));
+endif;
 
 $colors = array(
   '0' => array( 0 => 60, 60, 60 ),  // Black

@@ -323,6 +323,13 @@ div.filter {
   text-align: right;
 }
 
+div.privacy {
+  width: 60%;
+  margin: 0 auto 0.5em auto;
+  text-align: center;
+  color: #FF0000;
+}
+
 col.id {
   width: 8%;
 }

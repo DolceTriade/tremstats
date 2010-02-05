@@ -245,15 +245,20 @@
 
     <tbody>
       <tr>
-        <?php $column = 0; ?>
-        <?php foreach($this->player_nicks as $other_nick): ?>
-          <td class="playername">
-            <?php echo replace_color_codes($other_nick['nick_name']); ?>
-            <?php if ( $column == 2):  ?>
-              </tr><tr>
-            <?php $column = 0; else: $column++; endif; ?>
-          </td>
-        <?php endforeach; ?>
+        <?php if( constant('PRIVACY_NAME') == '1' ): ?>
+          <td colspan="3"><div class="privacy">( Aliases not shown )</div></td>
+        <?php else: ?>
+          <?php $column = 0; ?>
+          <?php foreach($this->player_nicks as $other_nick): ?>
+            <td class="playername">
+              <?php echo replace_color_codes($other_nick['nick_name']); ?>
+              <?php if ( $column == 2):  ?>
+                </tr><tr>
+              <?php $column = 0; else: $column++; endif; ?>
+            </td>
+          <?php endforeach; ?>
+          <?php while( $column < 3 ): $column++; echo "<td></td>"; endwhile; ?>
+        <?php endif; ?>
       </tr>
     </tbody>
   </table>
