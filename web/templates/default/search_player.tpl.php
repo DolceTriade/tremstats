@@ -34,8 +34,8 @@
     <tbody>
       <?php foreach ($this->players AS $player): ?>
         <tr class="list" >
-          <td class="playername"><a href="player_details.php?player_id=<?php echo $player['player_id'] ?>"><?php echo replace_color_codes(htmlspecialchars($player['player_name'])); ?></a></td>
-          <td class="playername"><?php if(isset($player['player_tjw_name'])) { echo replace_color_codes(htmlspecialchars($player['player_tjw_name'])); }?></td>
+          <td class="playername"><a href="player_details.php?player_id=<?php echo $player['player_id'] ?>"><?php echo replace_color_codes($player['player_name']); ?></a></td>
+          <td class="playername"><?php if(isset($player['player_tjw_name'])) { echo replace_color_codes($player['player_tjw_name']); }?></td>
           <td><?php echo $player['player_kills']; ?></td>
           <td><?php echo $player['player_deaths']; ?></td>
           <td><?php echo $player['player_total_efficiency']; ?></td>

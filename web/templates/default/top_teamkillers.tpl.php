@@ -34,7 +34,7 @@
       <?php foreach ($this->top AS $player): ?>
         <tr class="list" >
           <td><?php echo $player['player_rank']; ?></td>
-          <td class="playername"><a href="player_details.php?player_id=<?php echo $player['player_id'] ?>"><?php echo replace_color_codes(htmlspecialchars($player['player_name'])); ?></a></td>
+          <td class="playername"><a href="player_details.php?player_id=<?php echo $player['player_id'] ?>"><?php echo replace_color_codes($player['player_name']); ?></a></td>
           <td><?php echo $player['average_kills_to_enemy']; ?></td>
           <td><?php echo $player['average_deaths_by_enemy']; ?></td>
           <td><?php echo $player['average_kills_to_team']; ?></td>

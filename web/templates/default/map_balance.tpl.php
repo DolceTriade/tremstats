@@ -22,7 +22,7 @@
       <?php foreach ($this->maps_by_wins AS $map): ?>
         <tr>
           <td>
-            <a href="map_details.php?map_id=<?php echo $map['map_id'] ; ?>"><?php echo replace_color_codes(htmlspecialchars($map['map_text_name'])); ?></a>
+            <a href="map_details.php?map_id=<?php echo $map['map_id'] ; ?>"><?php echo replace_color_codes($map['map_text_name']); ?></a>
           </td>
           <td>
             <img width="400" height="30" alt="Balance" title="Alien Wins: <?php echo $map['mapstat_alien_wins']; ?>, Human Wins: <?php echo $map['mapstat_human_wins']; ?>, Ties: <?php echo $map['ties'];?>" src="_graph.php?type=balance_bar&amp;a=<?php echo ($map['mapstat_alien_wins']); ?>&amp;b=<?php echo ($map['ties']); ?>&amp;c=<?php echo ($map['mapstat_human_wins']); ?>" />
@@ -72,7 +72,7 @@
       <?php foreach ($this->maps_by_kills AS $map): ?>
         <tr>
           <td>
-            <a href="map_details.php?map_id=<?php echo $map['map_id'] ; ?>"><?php echo replace_color_codes(htmlspecialchars($map['map_text_name'])); ?></a>
+            <a href="map_details.php?map_id=<?php echo $map['map_id'] ; ?>"><?php echo replace_color_codes($map['map_text_name']); ?></a>
           </td>
           <td>
             <img width="400" height="30" alt="Balance" title="Alien Kills: <?php echo $map['mapstat_alien_kills'];?>, Human Kills: <?php echo $map['mapstat_human_kills']; ?>" src="_graph.php?type=balance_bar&amp;a=<?php echo ($map['mapstat_alien_kills']); ?>&amp;c=<?php echo ($map['mapstat_human_kills']); ?>" />
@@ -121,7 +121,7 @@
       <?php foreach ($this->maps_by_deaths AS $map): ?>
         <tr>
           <td>
-            <a href="map_details.php?map_id=<?php echo $map['map_id'] ; ?>"><?php echo replace_color_codes(htmlspecialchars($map['map_text_name'])); ?></a>
+            <a href="map_details.php?map_id=<?php echo $map['map_id'] ; ?>"><?php echo replace_color_codes($map['map_text_name']); ?></a>
           </td>
           <td>
             <img width="400" height="30" alt="Balance" title="Alien Deaths: <?php echo $map['mapstat_alien_deaths'];?>, Human Deaths: <?php echo $map['mapstat_human_deaths']; ?>" src="_graph.php?type=balance_bar&amp;a=<?php echo ($map['mapstat_alien_deaths']); ?>&amp;c=<?php echo ($map['mapstat_human_deaths']); ?>" />

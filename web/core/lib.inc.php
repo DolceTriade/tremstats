@@ -28,6 +28,9 @@ function replace_color_codes ($string) {
     '7' => 'white',  // White
   );
 
+  // escape html reserved chars
+  $string = htmlspecialchars($string, ENT_QUOTES);
+
   // Search first token
   $pos = strpos($string, '^');
 

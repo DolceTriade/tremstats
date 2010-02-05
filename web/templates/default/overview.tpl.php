@@ -49,7 +49,7 @@
           ?>
           <tr>
             <?php if (!is_null($alien)): ?>
-              <td class="playername"><?php echo replace_color_codes(htmlspecialchars($alien['name'])); ?></td>
+              <td class="playername"><?php echo replace_color_codes($alien['name']); ?></td>
               <td><?php echo $alien['kills']; ?></td>
               <td><?php echo $alien['ping']; ?></td>
             <?php else: ?>
@@ -57,7 +57,7 @@
             <?php endif; ?>
 
             <?php if (!is_null($human)): ?>
-              <td class="playername"><?php echo replace_color_codes(htmlspecialchars($human['name'])); ?></td>
+              <td class="playername"><?php echo replace_color_codes($human['name']); ?></td>
               <td><?php echo $human['kills']; ?></td>
               <td><?php echo $human['ping']; ?></td>
             <?php else: ?>
@@ -74,7 +74,7 @@
 
         <?php foreach ($this->server_status['specs'] AS $spec): ?>
           <tr>
-            <td colspan="6"><?php echo replace_color_codes(htmlspecialchars($spec['name'])); ?></td>
+            <td colspan="6"><?php echo replace_color_codes($spec['name']); ?></td>
           </tr>
         <?php endforeach; ?>
       <?php endif; ?>
@@ -98,10 +98,10 @@
     <tbody>
       <tr>
         <td rowspan="5">
-          <img width="160" height="120" alt="<?php echo htmlspecialchars($this->running_map['map_text_name']); ?>" src="_levelshot.php?map_id=<?php echo ($this->running_map['map_id']); ?>" />
+          <img width="160" height="120" alt="<?php echo htmlspecialchars($this->running_map['map_text_name'],ENT_QUOTES); ?>" src="_levelshot.php?map_id=<?php echo ($this->running_map['map_id']); ?>" />
         </td>
         <td><strong>Map Name</strong></td>
-        <td><strong><a href="map_details.php?map_id=<?php echo $this->running_map['map_id'] ; ?>"><?php echo replace_color_codes(htmlspecialchars($this->running_map['map_text_name'])); ?></a></strong></td>
+        <td><strong><a href="map_details.php?map_id=<?php echo $this->running_map['map_id'] ; ?>"><?php echo replace_color_codes($this->running_map['map_text_name']); ?></a></strong></td>
         <td rowspan="5">
           <img width="200" height="120" alt="Winners in Games" src="_graph.php?type=wins_in_game&amp;map_id=<?php echo ($this->running_map['map_id']); ?>" />
         </td>
@@ -180,23 +180,23 @@
     <tbody>
       <tr>
         <td>Top Player</td>
-        <td><span class="playername"><a href="player_details.php?player_id=<?php echo $this->overview['top_player']['player_id'] ?>"><?php echo replace_color_codes(htmlspecialchars($this->overview['top_player']['player_name'])); ?></a></span> (Efficiency: <?php echo $this->overview['top_player']['player_total_efficiency']; ?>)</td>
+        <td><span class="playername"><a href="player_details.php?player_id=<?php echo $this->overview['top_player']['player_id'] ?>"><?php echo replace_color_codes($this->overview['top_player']['player_name']); ?></a></span> (Efficiency: <?php echo $this->overview['top_player']['player_total_efficiency']; ?>)</td>
       </tr>
       <tr>
         <td>Top Feeder</td>
-        <td><span class="playername"><a href="player_details.php?player_id=<?php echo $this->overview['top_feeder']['player_id'] ?>"><?php echo replace_color_codes(htmlspecialchars($this->overview['top_feeder']['player_name'])); ?></a></span> (Average Deaths: <?php echo $this->overview['top_feeder']['average_deaths_by_enemy']; ?>)</td>
+        <td><span class="playername"><a href="player_details.php?player_id=<?php echo $this->overview['top_feeder']['player_id'] ?>"><?php echo replace_color_codes($this->overview['top_feeder']['player_name']); ?></a></span> (Average Deaths: <?php echo $this->overview['top_feeder']['average_deaths_by_enemy']; ?>)</td>
       </tr>
       <tr>
         <td>Top Teamkiller</td>
-        <td><span class="playername"><a href="player_details.php?player_id=<?php echo $this->overview['top_teamkiller']['player_id'] ?>"><?php echo replace_color_codes(htmlspecialchars($this->overview['top_teamkiller']['player_name'])); ?></a></span> (Average Team Kills: <?php echo $this->overview['top_teamkiller']['average_kills_to_team']; ?>)</td>
+        <td><span class="playername"><a href="player_details.php?player_id=<?php echo $this->overview['top_teamkiller']['player_id'] ?>"><?php echo replace_color_codes($this->overview['top_teamkiller']['player_name']); ?></a></span> (Average Team Kills: <?php echo $this->overview['top_teamkiller']['average_kills_to_team']; ?>)</td>
       </tr>
       <tr>
         <td>Top Score</td>
-        <td><span class="playername"><a href="player_details.php?player_id=<?php echo $this->overview['top_score']['player_id'] ?>"><?php echo replace_color_codes(htmlspecialchars($this->overview['top_score']['player_name'])); ?></a></span> (Score: <?php echo $this->overview['top_score']['stats_score']; ?>)</td>
+        <td><span class="playername"><a href="player_details.php?player_id=<?php echo $this->overview['top_score']['player_id'] ?>"><?php echo replace_color_codes($this->overview['top_score']['player_name']); ?></a></span> (Score: <?php echo $this->overview['top_score']['stats_score']; ?>)</td>
       </tr>
       <tr>
         <td>Most Active Player</td>
-        <td><span class="playername"><a href="player_details.php?player_id=<?php echo $this->overview['most_active_player']['player_id'] ?>"><?php echo replace_color_codes(htmlspecialchars($this->overview['most_active_player']['player_name'])); ?></a></span> (Game-time factor: <?php echo $this->overview['most_active_player']['player_game_time_factor']; ?>)</td>
+        <td><span class="playername"><a href="player_details.php?player_id=<?php echo $this->overview['most_active_player']['player_id'] ?>"><?php echo replace_color_codes($this->overview['most_active_player']['player_name']); ?></a></span> (Game-time factor: <?php echo $this->overview['most_active_player']['player_game_time_factor']; ?>)</td>
       </tr>
     </tbody>
   </table>
@@ -218,10 +218,10 @@
     <tbody>
       <tr>
         <td rowspan="5">
-          <img width="160" height="120" alt="<?php echo htmlspecialchars($this->overview['most_played_map']['map_text_name']); ?>" src="_levelshot.php?map_id=<?php echo ($this->overview['most_played_map']['map_id']); ?>" />
+          <img width="160" height="120" alt="<?php echo htmlspecialchars($this->overview['most_played_map']['map_text_name'],ENT_QUOTES); ?>" src="_levelshot.php?map_id=<?php echo ($this->overview['most_played_map']['map_id']); ?>" />
         </td>
         <td><strong>Map Name</strong></td>
-        <td><strong><a href="map_details.php?map_id=<?php echo $this->overview['most_played_map']['map_id'] ; ?>"><?php echo replace_color_codes(htmlspecialchars($this->overview['most_played_map']['map_text_name'])); ?></a></strong></td>
+        <td><strong><a href="map_details.php?map_id=<?php echo $this->overview['most_played_map']['map_id'] ; ?>"><?php echo replace_color_codes($this->overview['most_played_map']['map_text_name']); ?></a></strong></td>
         <td rowspan="5">
           <img width="200" height="120" alt="Winners in Games" src="_graph.php?type=wins_in_game&amp;map_id=<?php echo ($this->overview['most_played_map']['map_id']); ?>" />
         </td>

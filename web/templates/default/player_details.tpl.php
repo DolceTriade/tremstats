@@ -2,7 +2,7 @@
 
 <div id="box">
   <div class="heading">
-    <span class="heading"><h2>Player Details for <?php echo replace_color_codes(htmlspecialchars($this->player_details['player_name'])); ?></h2></span>
+    <span class="heading"><h2>Player Details for <?php echo replace_color_codes($this->player_details['player_name']); ?></h2></span>
     <span class="headinglink"> ( <a href="player_getsig.php?player_id=<?php echo $this->player_details['player_id'] ?>">get a player signature</a> )</span>
   </div>
 
@@ -87,7 +87,7 @@
       <tr>
         <td>Random Quote</td>
         <td colspan="4" class="<?php if (!$this->random_quote): ?>noquote<?php elseif ($this->random_quote['say_mode'] == 'public'): ?>quote_public<?php else: ?>quote_team<?php endif; ?>">
-          <?php if (!$this->random_quote): ?>No quote available<?php else: ?><?php echo replace_color_codes(wordwrap(htmlspecialchars($this->random_quote['say_message']), 60, '<br \>', true)); ?><?php endif; ?>
+          <?php if (!$this->random_quote): ?>No quote available<?php else: ?><?php echo replace_color_codes(wordwrap($this->random_quote['say_message'], 60, '<br \>', true)); ?><?php endif; ?>
        </td>
       </tr>
 
@@ -248,7 +248,7 @@
         <?php $column = 0; ?>
         <?php foreach($this->player_nicks as $other_nick): ?>
           <td class="playername">
-            <?php echo replace_color_codes(htmlspecialchars($other_nick['nick_name'])); ?>
+            <?php echo replace_color_codes($other_nick['nick_name']); ?>
             <?php if ( $column == 2):  ?>
               </tr><tr>
             <?php $column = 0; else: $column++; endif; ?>

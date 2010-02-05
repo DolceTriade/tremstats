@@ -13,12 +13,12 @@
       <form class="search" method="get" accept-charset="utf-8" action="search_player.php">
         <fieldset>
           <label for="query">Player search:</label>
-          <input type="text" name="query" id="query" value="<?php if (isset($_GET['query'])): ?><?php echo htmlspecialchars($_GET['query']) ?><?php endif; ?>" />
+          <input type="text" name="query" id="query" value="<?php if (isset($_GET['query'])): ?><?php echo htmlspecialchars($_GET['query'],ENT_QUOTES) ?><?php endif; ?>" />
           <input type="submit" value="search" />
         </fieldset>
       </form>
 
-      <h1>Tremstats<sup class="too">(Too)</sup><span class="for"><br></span><?php echo replace_color_codes(htmlspecialchars(TREMULOUS_SERVER_NAME)); ?></h1>
+      <h1>Tremstats<sup class="too">(Too)</sup><span class="for"><br></span><?php echo replace_color_codes(TREMULOUS_SERVER_NAME); ?></h1>
     </div>
 
     <ul class="menu">

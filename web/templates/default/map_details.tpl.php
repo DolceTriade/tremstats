@@ -2,7 +2,7 @@
 
 <div id="box">
   <div class="heading">
-    <span class="heading"><h2>Map Details for <?php echo replace_color_codes(htmlspecialchars($this->map_details['map_text_name'])); ?></h2></span>
+    <span class="heading"><h2>Map Details for <?php echo replace_color_codes($this->map_details['map_text_name']); ?></h2></span>
     <span class="headinglink"><a href="games.php?map_id=<?php echo $this->map_details['map_id'] ?>">See game list for this map</a></span>
   </div>
 
@@ -23,7 +23,7 @@
       <tr>
         <td>Short Name</td>
         <td><?php echo $this->map_details['map_name']; ?></td>
-        <td rowspan="7" style="vertical-align:top"><img width="160" height="120" alt="<?php echo htmlspecialchars($this->map_details['map_text_name']); ?>" src="_levelshot.php?map_id=<?php echo ($this->map_details['map_id']); ?>" /></td>
+        <td rowspan="7" style="vertical-align:top"><img width="160" height="120" alt="<?php echo htmlspecialchars($this->map_details['map_text_name'],ENT_QUOTES); ?>" src="_levelshot.php?map_id=<?php echo ($this->map_details['map_id']); ?>" /></td>
       </tr>
       <tr>
         <td>Games</td>

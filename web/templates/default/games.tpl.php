@@ -68,7 +68,7 @@
         <tr class="list" >
           <td><a href="game_details.php?game_id=<?php echo $game['game_id']; ?>"><?php echo $game['game_id']; ?></a></td>
           <td><?php echo $game['game_timestamp']; ?></td>
-          <td><?php echo replace_color_codes(htmlspecialchars($game['game_map_name'])); ?></td>
+          <td><?php echo replace_color_codes($game['game_map_name']); ?></td>
           <td align="right"><?php echo $game['game_length']; ?></td>
           <td align="center"><?php echo $game['game_winner']; ?></td>
           <?php if(isset($this->order_name)): ?>

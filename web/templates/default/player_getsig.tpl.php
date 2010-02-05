@@ -9,7 +9,7 @@
 ?>
 
 <div id="box">
-  <h2>Player Signature for <a href="player_details.php?player_id=<?php echo $this->player_details['player_id']; ?>"><?php echo replace_color_codes(htmlspecialchars($this->player_details['player_name'])); ?></a></h2>
+  <h2>Player Signature for <a href="player_details.php?player_id=<?php echo $this->player_details['player_id']; ?>"><?php echo replace_color_codes($this->player_details['player_name']); ?></a></h2>
 
   <table>
     <colgroup>

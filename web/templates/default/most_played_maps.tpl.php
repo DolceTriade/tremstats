@@ -40,10 +40,10 @@
         <?php endif; ?>
         <tr>
           <td rowspan="5">
-            <img width="160" height="120" alt="<?php echo htmlspecialchars($game['map_name']); ?>" src="_levelshot.php?map_id=<?php echo ($game['map_id']); ?>" />
+            <img width="160" height="120" alt="<?php echo htmlspecialchars($game['map_name'],ENT_QUOTES); ?>" src="_levelshot.php?map_id=<?php echo ($game['map_id']); ?>" />
           </td>
           <td><strong>Map Name</strong></td>
-          <td><strong><a href="map_details.php?map_id=<?php echo $game['map_id'] ; ?>"><?php echo replace_color_codes(htmlspecialchars($game['map_text_name'])); ?></a></strong></td>
+          <td><strong><a href="map_details.php?map_id=<?php echo $game['map_id'] ; ?>"><?php echo replace_color_codes($game['map_text_name']); ?></a></strong></td>
           <td rowspan="5">
             <img width="200" height="120" alt="Winners in Games" src="_graph.php?type=wins_in_game&amp;map_id=<?php echo ($game['map_id']); ?>" />
           </td>

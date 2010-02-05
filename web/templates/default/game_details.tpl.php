@@ -17,10 +17,10 @@
      <th colspan="3">Game info</td>
      <tr>
       <td rowspan="10">
-        <img width="160" height="120" alt="<?php echo htmlspecialchars($this->map['game_map_name']); ?>" src="_levelshot.php?map_id=<?php echo ($this->game_details['game_map_id']); ?>" />
+        <img width="160" height="120" alt="<?php echo htmlspecialchars($this->map['game_map_name'],ENT_QUOTES); ?>" src="_levelshot.php?map_id=<?php echo ($this->game_details['game_map_id']); ?>" />
       </td>
       <td><strong>Map Name</strong></td>
-      <td><strong><a href="map_details.php?map_id=<?php echo $this->game_details['game_map_id'] ; ?>"><?php echo replace_color_codes(htmlspecialchars($this->map['game_map_name'])); ?></a></strong></td>
+      <td><strong><a href="map_details.php?map_id=<?php echo $this->game_details['game_map_id'] ; ?>"><?php echo replace_color_codes($this->map['game_map_name']); ?></a></strong></td>
      </tr>
      <tr>
       <td>Winner</td>
@@ -56,7 +56,7 @@
       <?php $count = 0; foreach ($this->players AS $player): ?>
        <?php if ($player['time_alien'] > $player['time_human']): ?>
         <tr class="list" >
-         <td class="playername"><a href="player_details.php?player_id=<?php echo $player['player_id']; ?>"><?php echo replace_color_codes(htmlspecialchars($player['player_name'])) ?></a></td>
+         <td class="playername"><a href="player_details.php?player_id=<?php echo $player['player_id']; ?>"><?php echo replace_color_codes($player['player_name']) ?></a></td>
          <td><?php echo $player['stats_score'] ?></td>
          <td><?php echo $player['stats_kills'] ?></td>
          <td><?php echo $player['stats_teamkills'] ?></td>
@@ -92,7 +92,7 @@
       <?php $count = 0; foreach ($this->players AS $player): ?>
        <?php if ($player['time_human'] > $player['time_alien']): ?>
         <tr class="list" >
-         <td class="playername"><a href="player_details.php?player_id=<?php echo $player['player_id']; ?>"><?php echo replace_color_codes(htmlspecialchars($player['player_name'])) ?></a></td>
+         <td class="playername"><a href="player_details.php?player_id=<?php echo $player['player_id']; ?>"><?php echo replace_color_codes($player['player_name']) ?></a></td>
          <td><?php echo $player['stats_score'] ?></td>
          <td><?php echo $player['stats_kills'] ?></td>
          <td><?php echo $player['stats_teamkills'] ?></td>
@@ -127,7 +127,7 @@
       <?php $count = 0; foreach ($this->players AS $player): ?>
        <?php if (empty($player['time_human']) and empty($player['time_alien'])): ?>
         <tr class="list" >
-         <td class="playername"><a href="player_details.php?player_id=<?php echo $player['player_id']; ?>"><?php echo replace_color_codes(htmlspecialchars($player['player_name'])) ?></a></td>
+         <td class="playername"><a href="player_details.php?player_id=<?php echo $player['player_id']; ?>"><?php echo replace_color_codes($player['player_name']) ?></a></td>
          <td></td>
          <td><?php echo $player['stats_kills'] ?></td>
          <td><?php echo $player['stats_teamkills'] ?></td>
