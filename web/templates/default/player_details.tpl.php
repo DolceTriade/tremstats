@@ -98,6 +98,17 @@
         <td><?php echo $this->player_details['player_destruction_efficiency']; ?> destruction</td>
         <td></td>
       </tr>
+
+      <tr>
+        <td>Favorite Target</td>
+        <td colspan="4"><?php if ($this->favorite_target): ?><a href="player_details.php?player_id=<?php echo $this->favorite_target['player_id']; ?>"><?php echo replace_color_codes($this->favorite_target['player_name']) ?></a> with <?php echo $this->favorite_target['kill_count']; ?> kills<?php endif; ?></td>
+      </tr>
+
+      <tr>
+        <td>Nemesis</td>
+        <td colspan="4"><?php if ($this->favorite_nemesis): if ($this->favorite_nemesis['player_id'] > 0): ?><a href="player_details.php?player_id=<?php echo $this->favorite_nemesis['player_id']; ?>"><?php echo replace_color_codes($this->favorite_nemesis['player_name']) ?></a><?php else: ?>&lt;world&gt;<?php endif; ?> with <?php echo $this->favorite_nemesis['kill_count']; ?> deaths<?php endif; ?></td>
+      </tr>
+
     </tbody>
   </table>
 

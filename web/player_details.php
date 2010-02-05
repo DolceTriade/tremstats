@@ -127,6 +127,27 @@ $votes_against = $db->GetAll("SELECT COUNT(vote_id) AS vote_count,
                                      ORDER BY vote_count DESC, vote_type ASC",
                                      array($player_details['player_id']));
 
+$favorite_target = $db->GetRow("SELECT player_id,
+                                     player_name,
+                                     COUNT(*) AS kill_count
+                                     FROM kills
+                                     LEFT JOIN players ON kill_target_player_id = player_id
+                                     WHERE kill_source_player_id = ?
+                                     GROUP BY kill_target_player_id
+                                     ORDER BY kill_count desc
+                                     LIMIT 0,1",
+                                     array($player_details['player_id']));
+$favorite_nemesis = $db->GetRow("SELECT player_id,
+                                     player_name,
+                                     COUNT(*) AS kill_count
+                                     FROM kills
+                                     LEFT JOIN players on kill_source_player_id = player_id
+                                     WHERE kill_target_player_id = ?
+                                     GROUP BY kill_source_player_id
+                                     ORDER BY kill_count desc
+                                     LIMIT 0,1",
+                                     array($player_details['player_id']));
+
 // Assign variables to template
 $tpl->assign('player_details',       $player_details);
 $tpl->assign('player_nicks',         $player_nicks);
@@ -137,6 +158,8 @@ $tpl->assign('destroyed_structures', $destroyed_structures);
 $tpl->assign('built_structures',     $built_structures);
 $tpl->assign('votes_called',         $votes_called);
 $tpl->assign('votes_against',        $votes_against);
+$tpl->assign('favorite_target',      $favorite_target);
+$tpl->assign('favorite_nemesis',     $favorite_nemesis);
                                      
 // Show the template
 $tpl->display('player_details.tpl.php');
