@@ -126,6 +126,8 @@ class Tremstats:
 					print "--log=<file>:  Parse another log than default"
 					print "--pk3=<dir>:   Read another dir than default"
 					print "--map=<file>:  Parse a single map pk3 for levelshot"
+					print "--db=<name>:   Specify database name"
+					print "--pw=<pass>:   Specify database password"
 					sys.exit(-1)
 
 				elif arg_data[0] == '--calconly':
@@ -146,6 +148,10 @@ class Tremstats:
 					self.pk3_dir = arg_data[1]
 				elif arg_data[0] == '--map':
 					self.one_pk3 = arg_data[1]
+				elif arg_data[0] == '--db':
+					CONFIG['MYSQL_DATABASE'] = arg_data[1]
+				elif arg_data[0] == '--pw':
+					CONFIG['MYSQL_PASSWORD'] = arg_data[1]
 				else:
 					sys.exit("Invalid arguments, see `tremstats.py --help`")
 
