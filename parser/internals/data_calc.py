@@ -9,37 +9,40 @@ from externals.progressbar import ProgressBar, Percentage, Bar, ETA
 """ Class: Calculator """
 class Calculator:
 	""" Init Calculator """
-	def Main(self, dbc, players_to_update):
+	def Main(self, dbc, players_to_update, all):
 		# Localize dbc
 		self.dbc = dbc
 
 		# Here we do calculations, which are to heavy for real-time
 		print "Calculating data ..."
 
-		# Update the game time factor and total says
+		# Update the game time factor
 		print " - Calculating game time factor"
+		self.dbc.execute("SELECT `game_id` FROM `games` ORDER BY `game_id` DESC LIMIT 0, 1")
+		result = self.dbc.fetchone()
+		if result != None:
+			last_game = result[0]
+		else:
+			last_game = 1
 		self.dbc.execute("""UPDATE `players` SET
-		                    `player_game_time_factor` = POW(
-		                                                   SQRT(`player_games_played`)
-		                                                   /
-		                                                   (
-		                                                     SQRT(
-		                                                           (
-		                                                             SELECT COUNT(*)
-		                                                             FROM `games`
-		                                                             WHERE `game_id` >= `player_first_game_id`
-		                                                                   AND `game_winner` != 'undefined'
-		                                                           )
-		                                                         )
-		                                                   ), 2
-		                                                   )""")
-		# note: removed from above to slightly speed up nightly parsing - value is unused
-		#                    `player_total_says`       = (SELECT COUNT(*) FROM `says` WHERE `say_player_id` = `player_id`),
+		                    `player_game_time_factor` =
+		                    POW( SQRT(`player_games_played`) /
+		                         SQRT( %s - `player_first_game_id` + 1 ), 2 )""",
+		                    (last_game))
 
 		# Calculate efficiencies
-		print " - Calculating kill- and destruction-efficiency"
 
-		player_count = len(players_to_update)
+		player_count = 0
+		if all == True:
+			self.dbc.execute("SELECT `player_id` FROM `players` ORDER BY `player_id` DESC LIMIT 0, 1")
+			result = self.dbc.fetchone()
+			if result != None:
+				player_count = result[0]
+		else:
+			player_count = len(players_to_update)
+
+		print " - Calculating efficiency for %d players" % (player_count)
+
 
 		# Start the progressbar
 		try:
@@ -48,20 +51,27 @@ class Calculator:
 			pbar = None
 
 		# Iterate the stack
-		while len(players_to_update) > 0:
-			player_id = players_to_update.pop()
-
-			if player_id == 0:
-				continue
+		player_id = 0
+		while (1):
+			if all == True:
+				player_id += 1
+				if player_id > player_count:
+					break;
+			else:
+				if len(players_to_update) == 0:
+					break;
+				player_id = players_to_update.pop()
+				if player_id == 0:
+					continue
 
 			# Calculate kill- and destruction efficiency
 			self.dbc.execute("""UPDATE players SET
 			                    `player_kill_efficiency` = (
-			                      `player_total_kills` -
-			                      `player_total_teamkills` -
-			                      (`player_deaths_by_world` / 10)
-			                    ) / (`player_deaths_by_enemy` + 1),
-			                    
+			                      `player_kills` -
+			                      `player_teamkills` -
+			                      ((`player_deaths_world_alien` + `player_deaths_world_human`) / 10)
+			                    ) / (`player_deaths_enemy` + 1),
+
 			                    `player_destruction_efficiency` = IFNULL((
 			                      SELECT SUM(`building_efficiency_multiplier`)
 			                      FROM `buildings`
@@ -69,7 +79,11 @@ class Calculator:
 			                             ON `destruct_building_id` = `building_id`
 			                            AND `destruct_player_id` = %s
 			                      WHERE `destruct_id` IS NOT NULL
-			                    ) / ((SELECT COUNT(*) FROM `destructions` WHERE `destruct_player_id` = %s) + 1), 0)
+			                    ) / ((SELECT COUNT(*) FROM `destructions` WHERE `destruct_player_id` = %s) + 1)
+			                      / (`player_deaths_enemy` + 1), 0),
+
+                                            `player_total_efficiency` = `player_kill_efficiency` + `player_destruction_efficiency`
+
 			                    WHERE `player_id` = %s
 			                 """, (player_id, player_id, player_id))
 
@@ -87,9 +101,3 @@ class Calculator:
 			except:
 				pass
 
-		# Calculate total efficiency
-		print " - Calculating total-efficiency"
-		self.dbc.execute("""UPDATE `players` SET
-		                      `player_total_efficiency` = (`player_kill_efficiency` + 0.1)
-		                                                * (`player_destruction_efficiency` + 0.1)
-                            """)

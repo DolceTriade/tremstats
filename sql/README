@@ -1,0 +1,19 @@
+basics for mysql:
+
+login:
+mysql -u username -p
+
+create a database named tremstats:
+CREATE DATABASE tremstats;
+
+switch to it:
+USE tremstats;
+
+exit:
+quit;
+
+now to execute the data.sql and structure.sql:
+mysql -u username -p tremstats < structure.sql
+mysql -u username -p tremstats < data.sql
+
+

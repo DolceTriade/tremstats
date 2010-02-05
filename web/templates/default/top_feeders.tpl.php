@@ -5,18 +5,18 @@
 
   <table>
     <colgroup>
-      <col width="60" />
+      <col class="id" />
+      <col class="playernamewide" />
       <col />
-      <col width="140" />
-      <col width="140" />
+      <col />
     </colgroup>
 
     <thead>
       <tr>
-        <th><?php echo custom_sort('#',      'rank'); ?></th>
+        <th title="Feed Rank"><?php echo custom_sort('#',      'rank'); ?></th>
         <th><?php echo custom_sort('Player', 'player'); ?></th>
-        <th title="Average Kills to Enemy per Round"><?php echo custom_sort('Average Kills',   'average_kills'); ?></th>
-        <th title="Average Deaths by Enemy per Round"><?php echo custom_sort('Average Deaths', 'average_deaths'); ?></th>
+        <th title="Average Kills to Enemy per Round"><?php echo custom_sort('AVG Kills',   'average_kills'); ?></th>
+        <th title="Average Deaths by Enemy per Round"><?php echo custom_sort('AVG Deaths', 'average_deaths'); ?></th>
       </tr>
     </thead>
 
@@ -30,7 +30,7 @@
 
     <tbody>
       <?php foreach ($this->top AS $player): ?>
-        <tr>
+        <tr class="list" >
           <td><?php echo $player['player_rank']; ?></td>
           <td class="playername"><a href="player_details.php?player_id=<?php echo $player['player_id'] ?>"><?php echo replace_color_codes(htmlspecialchars($player['player_name'])); ?></a></td>
           <td><?php echo $player['average_kills_to_enemy']; ?></td>
@@ -48,3 +48,4 @@
  </div>
 
  <?php include '__footer__.tpl.php'; ?>
+

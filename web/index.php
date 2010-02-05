@@ -30,72 +30,85 @@ require_once 'core/tremreport.class.php';
 $reporter      = new TremulousReporter(TREMULOUS_ADDRESS);
 $server_status = $reporter->getStatus();
 
-$running_map = $db->GetRow("SELECT COUNT(game_map_id) AS game_map_played,
-                                   game_map_id,
-                                   if (map_longname != '', map_longname, map_name) AS game_map_name,
-                                   (SELECT COUNT(*) FROM games awc WHERE awc.game_map_id = games.game_map_id AND awc.game_winner = 'aliens') AS game_alien_wins,
-                                   (SELECT COUNT(*) FROM games hwc WHERE hwc.game_map_id = games.game_map_id AND hwc.game_winner = 'humans') AS game_human_wins
-                            FROM games
-                            INNER JOIN maps ON map_id = game_map_id
-                            WHERE map_name = ? AND game_winner != 'undefined'
-                            GROUP BY game_map_id
-                            ORDER BY game_map_played DESC
+if (!empty($server_status['server_vars']['mapname'])):
+$running_map = $db->GetRow("SELECT map_id,
+                                   if (map_longname != '', map_longname, map_name) AS map_text_name,
+                                   mapstat_games,
+                                   mapstat_alien_wins,
+                                   mapstat_human_wins,
+                                   mapstat_ties + mapstat_draws AS ties
+                            FROM map_stats
+                            INNER JOIN maps ON map_id = mapstat_id
+                            WHERE map_name = ?
                             LIMIT 0, 1",
                             array($server_status['server_vars']['mapname']));
+endif;
 
 // Get saved data
 $games      = $db->GetRow("SELECT COUNT(*) AS count FROM games WHERE game_winner != 'undefined'");
 $alien_wins = $db->GetRow("SELECT COUNT(*) AS count FROM games WHERE game_winner = 'aliens'");
 $human_wins = $db->GetRow("SELECT COUNT(*) AS count FROM games WHERE game_winner = 'humans'");
-$tied       = $db->GetRow("SELECT COUNT(*) AS count FROM games WHERE game_winner = 'none'");
+$ties       = $db->GetRow("SELECT COUNT(*) AS count FROM games WHERE game_winner = 'tie' OR game_winner = 'draw'");
+
+$last_game  = $db->GetRow("SELECT game_id FROM games ORDER BY game_id DESC LIMIT 0, 1");
+$game_cutoff= $last_game['game_id'] - TRESHOLD_MAX_GAMES_PAUSED;
 
 $top_player = $db->GetRow("SELECT player_id,
                                   player_name,
                                   player_total_efficiency
                            FROM players
                            WHERE player_games_played >= ?
-                                 AND player_games_paused <= ?
+                                 AND player_last_game_id > ?
                            ORDER BY player_total_efficiency DESC
                            LIMIT 0, 1",
-                           array(TRESHOLD_MIN_GAMES_PLAYED, TRESHOLD_MAX_GAMES_PAUSED));
+                           array(TRESHOLD_MIN_GAMES_PLAYED, $game_cutoff));
 $top_feeder = $db->GetRow("SELECT player_id,
                                   player_name,
-                                  IF (player_games_played = 0, 0, player_deaths_by_enemy / player_games_played) AS average_deaths_by_enemy
+                                  IF (player_games_played = 0, 0, player_deaths_enemy / player_games_played) AS average_deaths_by_enemy
                            FROM players
                            WHERE player_games_played >= ?
-                                 AND player_games_paused <= ?
+                                 AND player_last_game_id > ?
                            ORDER BY average_deaths_by_enemy DESC
                            LIMIT 0, 1",
-                           array(TRESHOLD_MIN_GAMES_PLAYED, TRESHOLD_MAX_GAMES_PAUSED));
+                           array(TRESHOLD_MIN_GAMES_PLAYED, $game_cutoff));
 $top_teamkiller = $db->GetRow("SELECT player_id,
                                       player_name,
-                                      IF (player_games_played = 0, 0, player_total_teamkills / player_games_played) AS average_kills_to_team
+                                      IF (player_games_played = 0, 0, player_teamkills / player_games_played) AS average_kills_to_team
                                FROM players
                                WHERE player_games_played >= ?
-                                     AND player_games_paused <= ?
+                                     AND player_last_game_id > ?
                                ORDER BY average_kills_to_team DESC
                                LIMIT 0, 1",
-                               array(TRESHOLD_MIN_GAMES_PLAYED, TRESHOLD_MAX_GAMES_PAUSED));
+                               array(TRESHOLD_MIN_GAMES_PLAYED, $game_cutoff));
 $most_active_player = $db->GetRow("SELECT player_id,
                                           player_name,
                                           player_game_time_factor
                                    FROM players
                                    WHERE player_games_played >= ?
-                                         AND player_games_paused <= ?
+                                         AND player_last_game_id > ?
                                    ORDER BY player_game_time_factor DESC
                                    LIMIT 0, 1",
-                                   array(TRESHOLD_MIN_GAMES_PLAYED, TRESHOLD_MAX_GAMES_PAUSED));
+                                   array(TRESHOLD_MIN_GAMES_PLAYED, $game_cutoff));
 
-$most_played_map = $db->GetRow("SELECT COUNT(game_map_id) AS game_map_played,
-                                       game_map_id,
-                                       if (map_longname != '', map_longname, map_name) AS game_map_name,
-                                       (SELECT COUNT(*) FROM games awc WHERE awc.game_map_id = games.game_map_id AND awc.game_winner = 'aliens') AS game_alien_wins,
-                                       (SELECT COUNT(*) FROM games hwc WHERE hwc.game_map_id = games.game_map_id AND hwc.game_winner = 'humans') AS game_human_wins
-                                FROM games
-                                INNER JOIN maps ON map_id = game_map_id
-                                WHERE game_winner != 'undefined'
-                                GROUP BY game_map_id
-                                ORDER BY game_map_played DESC
+$top_score = $db->GetRow("SELECT player_id,
+                                 player_name,
+                                 stats_score
+                          FROM per_game_stats
+                          INNER JOIN players ON player_id = stats_player_id
+                          WHERE player_last_game_id > ?
+                          ORDER BY stats_score DESC
+                          LIMIT 0, 1",
+                          array($game_cutoff));
+
+$most_played_map = $db->GetRow("SELECT map_id,
+                                       if (map_longname != '', map_longname, map_name) AS map_text_name,
+                                       mapstat_games,
+                                       mapstat_alien_wins,
+                                       mapstat_human_wins,
+                                       mapstat_ties + mapstat_draws AS ties
+                                FROM map_stats
+                                INNER JOIN maps ON map_id = mapstat_id
+                                ORDER BY mapstat_games DESC
                                 LIMIT 0, 1");
 
 $state = $db->GetRow("SELECT log_timestamp FROM state WHERE log_id = '0'");
@@ -104,18 +117,21 @@ $overview = array();
 $overview['games']      = $games['count'];
 $overview['alien_wins'] = $alien_wins['count'];
 $overview['human_wins'] = $human_wins['count'];
-$overview['tied']       = $tied['count'];
+$overview['ties']       = $ties['count'];
 
 $overview['top_player']         = $top_player;
 $overview['top_feeder']         = $top_feeder;
 $overview['top_teamkiller']     = $top_teamkiller;
 $overview['most_active_player'] = $most_active_player;
+$overview['top_score']          = $top_score;
 
 $overview['most_played_map'] = $most_played_map;
 
 // Assign variables to template
-$tpl->assign('server_status', $server_status);
-$tpl->assign('running_map',   $running_map);
+if (!empty($running_map)):
+  $tpl->assign('server_status', $server_status);
+  $tpl->assign('running_map',   $running_map);
+endif;
 $tpl->assign('overview',      $overview);
 
 $tpl->assign('state',         $state);

@@ -8,11 +8,14 @@
 
 require_once 'core/init.inc.php';
 
+$last_game  = $db->GetRow("SELECT game_id FROM games ORDER BY game_id DESC LIMIT 0, 1");
+$game_cutoff= $last_game['game_id'] - TRESHOLD_MAX_GAMES_PAUSED;
+
 $custom_orders = array (
   'rank'           => 'player_rank',
   'player'         => 'player_name_uncolored',
-  'kills'          => 'player_total_kills',
-  'deaths'         => 'player_total_deaths',
+  'kills'          => 'player_kills',
+  'deaths'         => 'player_deaths',
   'efficiency'     => 'player_total_efficiency',
   'games'          => 'player_games_played',
   'gametimefactor' => 'player_game_time_factor',
@@ -25,23 +28,23 @@ $db->Execute("CREATE TEMPORARY TABLE tmp (
                       @n := @n + 1 AS player_rank,
                       player_name,
                       player_name_uncolored,
-                      player_total_kills,
-                      player_total_deaths,
+                      player_kills,
+                      player_deaths,
                       player_total_efficiency,
                       player_games_played,
                       player_game_time_factor
                FROM players
                WHERE player_games_played >= ?
-                     AND player_games_paused <= ?
+                     AND player_last_game_id > ?
                ORDER BY player_game_time_factor DESC
-             )", array(TRESHOLD_MIN_GAMES_PLAYED, TRESHOLD_MAX_GAMES_PAUSED));
+             )", array(TRESHOLD_MIN_GAMES_PLAYED, $game_cutoff));
 
 
 $pagelister->SetQuery("SELECT player_id,
                               player_rank,
                               player_name,
-                              player_total_kills,
-                              player_total_deaths,
+                              player_kills,
+                              player_deaths,
                               player_total_efficiency,
                               player_games_played,
                               player_game_time_factor

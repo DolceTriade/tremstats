@@ -10,25 +10,26 @@
 
   <body>
     <div id="header">
-      <h1>Tremstats</h1>
-
-      <form method="get" accept-charset="utf-8" action="search_player.php">
+      <form class="search" method="get" accept-charset="utf-8" action="search_player.php">
         <fieldset>
           <label for="query">Player search:</label>
           <input type="text" name="query" id="query" value="<?php if (isset($_GET['query'])): ?><?php echo htmlspecialchars($_GET['query']) ?><?php endif; ?>" />
           <input type="submit" value="search" />
         </fieldset>
       </form>
+
+      <h1>Tremstats<sup class="too">(Too)</sup><span class="for"><br></span><?php echo replace_color_codes(htmlspecialchars(TREMULOUS_SERVER_NAME)); ?></h1>
     </div>
 
-    <ul id="menu">
-      <li><a href="index.php">Overview</a></li>
-      <li><a href="top_players.php">Top Players</a></li>
-      <li><a href="top_feeders.php">Feeders</a></li>
-      <li><a href="top_teamkillers.php">Teamkillers</a></li>
-      <li><a href="most_active_players.php">Most Active Players</a></li>
-      <li><a href="most_played_maps.php">Most Played Maps</a></li>
-      <li><a href="games.php">Games</a></li>
+    <ul class="menu">
+      <li><a href="index.php">Overview</a>
+      </li><li><a href="top_players.php">Top Players</a>
+      </li><li><a href="top_feeders.php">Feeders</a>
+      </li><li><a href="top_teamkillers.php">Team Killers</a>
+      </li><li><a href="most_active_players.php">Most Active Players</a>
+      </li><li><a href="most_played_maps.php">Most Played Maps</a>
+      </li><li><a href="map_balance.php">Balance</a>
+      </li><li><a href="games.php">Games</a></li>
     </ul>
 
     <?php include '__pagelister__.php'; ?>

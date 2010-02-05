@@ -8,6 +8,9 @@
 
 require_once 'core/init.inc.php';
 
+$last_game  = $db->GetRow("SELECT game_id FROM games ORDER BY game_id DESC LIMIT 0, 1");
+$game_cutoff= $last_game['game_id'] - TRESHOLD_MAX_GAMES_PAUSED;
+
 $custom_orders = array (
   'rank'               => 'player_rank',
   'player'             => 'player_name_uncolored',
@@ -23,14 +26,14 @@ $db->Execute("CREATE TEMPORARY TABLE tmp (
                        @n := @n + 1 AS player_rank,
                        player_name,
                        player_name_uncolored,
-                       IF (player_games_played = 0, 0, player_total_kills / player_games_played) AS average_kills_to_enemy,
-                       IF (player_games_played = 0, 0, player_total_teamkills / player_games_played) AS average_kills_to_team,
-                       IF (player_games_played = 0, 0, player_deaths_by_enemy / player_games_played) AS average_deaths_by_enemy
+                       IF (player_games_played = 0, 0, player_kills / player_games_played) AS average_kills_to_enemy,
+                       IF (player_games_played = 0, 0, player_teamkills / player_games_played) AS average_kills_to_team,
+                       IF (player_games_played = 0, 0, player_deaths_enemy / player_games_played) AS average_deaths_by_enemy
                 FROM players
                 WHERE player_games_played >= ?
-                      AND player_games_paused <= ?
+                      AND player_last_game_id > ?
                 ORDER BY average_kills_to_team DESC
-              )", array(TRESHOLD_MIN_GAMES_PLAYED, TRESHOLD_MAX_GAMES_PAUSED));
+              )", array(TRESHOLD_MIN_GAMES_PLAYED, $game_cutoff));
 
 $pagelister->SetQuery("SELECT player_id,
                              player_rank,

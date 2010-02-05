@@ -15,34 +15,45 @@ if (!isset($_GET['player_id'])) {
 // Player details
 $player_details = $db->GetRow("SELECT player_id,
                                       player_name,
-                                      player_qkey,
                                       player_games_played,
-                                      player_games_paused,
-                                      player_game_time_factor,
-                                      player_total_kills,
-                                      player_total_teamkills,
-                                      player_total_deaths,
-                                      player_deaths_by_enemy,
-                                      player_deaths_by_team,
-                                      player_deaths_by_world,
+                                      player_kills,
+                                      player_kills_alien,
+                                      player_kills_human,
+                                      player_teamkills,
+                                      player_teamkills_alien,
+                                      player_teamkills_human,
+                                      player_deaths,
+                                      player_deaths_enemy_alien,
+                                      player_deaths_enemy_human,
+                                      player_deaths_team_alien,
+                                      player_deaths_team_human,
+                                      player_deaths_world_alien,
+                                      player_deaths_world_human,
+                                      player_score_total,
                                       player_kill_efficiency,
                                       player_destruction_efficiency,
                                       player_total_efficiency,
-                                      COUNT(kill_id) AS player_selfkills,
-                                      DATE_FORMAT(player_first_gametime, '%d.%m.%Y | %H:%i') AS player_first_seen
+                                      SEC_TO_TIME(player_time_spec) AS player_total_spec,
+                                      SEC_TO_TIME(player_time_alien) AS player_total_alien,
+                                      SEC_TO_TIME(player_time_human) AS player_total_human,
+                                      SEC_TO_TIME(player_time_spec + player_time_alien + player_time_human) AS player_total_time,
+                                      player_first_gametime AS player_first_seen,
+                                      player_last_gametime AS player_last_seen
                                FROM players
-                               LEFT JOIN kills ON kill_source_player_id = player_id AND kill_target_player_id = player_id
                                WHERE player_id = ?
-                               GROUP BY player_id
                                LIMIT 0, 1",
                                array($_GET['player_id']));
+
+if( !isset($player_details['player_id']) ):
+  die ("player id not found");
+endif;
 
 // Other nicks used by this player
 $player_nicks = $db->GetAll("SELECT nick_name
                               FROM `nicks`
-                              WHERE player_qkey = ?
+                              WHERE nick_player_id = ?
                               ORDER BY nick_name_uncolored ASC",
-                              array($player_details['player_qkey']));
+                              array($player_details['player_id']));
 
 // Random quote
 $random_quote = $db->GetRow("SELECT say_mode, say_message
@@ -53,7 +64,7 @@ $random_quote = $db->GetRow("SELECT say_mode, say_message
                              array($player_details['player_id']));
 
 // Prefered weapons
-$prefered_weapons = $db->GetAll("SELECT COUNT(kill_id) AS weapon_used,
+$weapon_kills = $db->GetAll("SELECT COUNT(kill_id) AS weapon_count,
                                         weapon_name,
                                         weapon_icon
                                  FROM kills
@@ -61,26 +72,67 @@ $prefered_weapons = $db->GetAll("SELECT COUNT(kill_id) AS weapon_used,
                                  WHERE kill_source_player_id = ?
                                        AND kill_source_player_id != kill_target_player_id
                                  GROUP BY kill_weapon_id
-                                 ORDER BY weapon_used DESC",
+                                 ORDER BY weapon_count DESC, weapon_name ASC",
+                                 array($player_details['player_id']));
+
+$weapon_deaths = $db->GetAll("SELECT COUNT(kill_id) AS weapon_count,
+                                        weapon_name,
+                                        weapon_icon
+                                 FROM kills
+                                 INNER JOIN weapons ON weapon_id = kill_weapon_id
+                                 WHERE kill_target_player_id = ?
+                                       AND kill_source_player_id != kill_target_player_id
+                                 GROUP BY kill_weapon_id
+                                 ORDER BY weapon_count DESC, weapon_name ASC",
                                  array($player_details['player_id']));
 
 // Destroyed structures
-$destroyed_structures = $db->GetAll("SELECT COUNT(destruct_id) AS building_destroyed,
+$destroyed_structures = $db->GetAll("SELECT COUNT(destruct_id) AS building_count,
                                             building_name,
                                             building_icon
                                      FROM destructions
                                      INNER JOIN buildings ON building_id = destruct_building_id
                                      WHERE destruct_player_id = ?
                                      GROUP BY destruct_building_id
-                                     ORDER BY building_destroyed DESC",
+                                     ORDER BY building_count DESC, building_name ASC",
+                                     array($player_details['player_id']));
+
+$built_structures = $db->GetAll("SELECT COUNT(build_id) AS building_count,
+                                            building_name,
+                                            building_icon
+                                     FROM builds
+                                     INNER JOIN buildings ON building_id = build_building_id
+                                     WHERE build_player_id = ?
+                                     GROUP BY build_building_id
+                                     ORDER BY building_count DESC, building_name ASC",
+                                     array($player_details['player_id']));
+
+$votes_called = $db->GetAll("SELECT COUNT(vote_id) AS vote_count,
+                                            vote_type
+                                     FROM votes
+                                     WHERE vote_player_id = ?
+                                     GROUP BY vote_type
+                                     ORDER BY vote_count DESC, vote_type ASC",
+                                     array($player_details['player_id']));
+
+$votes_against = $db->GetAll("SELECT COUNT(vote_id) AS vote_count,
+                                            vote_type
+                                     FROM votes
+                                     WHERE vote_victim_id = ?
+                                     GROUP BY vote_type
+                                     ORDER BY vote_count DESC, vote_type ASC",
                                      array($player_details['player_id']));
 
 // Assign variables to template
 $tpl->assign('player_details',       $player_details);
 $tpl->assign('player_nicks',         $player_nicks);
 $tpl->assign('random_quote',         $random_quote);
-$tpl->assign('prefered_weapons',     $prefered_weapons);
+$tpl->assign('weapon_kills',         $weapon_kills);
+$tpl->assign('weapon_deaths',        $weapon_deaths);
 $tpl->assign('destroyed_structures', $destroyed_structures);
+$tpl->assign('built_structures',     $built_structures);
+$tpl->assign('votes_called',         $votes_called);
+$tpl->assign('votes_against',        $votes_against);
                                      
 // Show the template
 $tpl->display('player_details.tpl.php');

@@ -4,30 +4,41 @@
       if(isset($this->order_name)):
         $columns+=1;
       endif;
+
+      $game_search="";
       if(isset($this->map_id)):
-        $game_search="&map_id=".$this->map_id;
-      else:
-        $game_search="";
+        $game_search="&amp;map_id=".$this->map_id;
+      endif;
+      if(isset($this->hideempty)):
+        $game_search.="&amp;hideempty=1";
+      endif;
+
+      $game_empty="";
+      if(isset($this->order_name)):
+        $game_empty="&amp;order=".$this->order_name;
+      endif;
+      if(isset($this->map_id)):
+        $game_empty.="&amp;map_id=".$this->map_id;
       endif;
 ?>
 
-<div id="box"
-  <div id="box_header">
-    <span class="box_title"><h2><?php if(isset($this->order_name)): echo "Games with most ".$this->order_name; else: echo "Recent Games"; endif; ?></h2></span>
-    <span class="box_select">
-      Sort by: <a href="games.php<?php if(isset($this->map_id)): echo "?".$this->map_id; endif; ?>">Game ID</a> | <a href="games.php?order=kills<?php echo $game_search; ?>">Kills</a> | <a href="games.php?order=teamkills<?php echo $game_search; ?>">Teamkills</a> | <a href="games.php?order=deaths<?php echo $game_search; ?>">Deaths</a>
+<div id="box">
+  <div class="heading">
+    <span class="heading"><h2><?php if(isset($this->order_name)): echo "Games with most ".$this->order_name; else: echo "Recent Games"; endif; ?></h2></span>
+    <span class="headinglink">
+     Sort by: <a href="games.php?order=gameid<?php echo $game_search ?>">Game ID</a> | <a href="games.php?order=kills<?php echo $game_search; ?>">Kills</a> | <a href="games.php?order=deaths<?php echo $game_search; ?>">Deaths</a> | <a href="games.php?order=length<?php echo $game_search; ?>">Length</a>
     </span>
   </div>
 
   <table>
     <colgroup>
-      <col width="50" />
-      <col width="100" />
-      <col width="120" />
-      <col width="40" />
-      <col width="60" />
+      <col class="data" />
+      <col class="datadouble" />
+      <col />
+      <col class="datamore" />
+      <col class="datamore" />
       <?php if(isset($this->order_name)): ?>
-        <col width="50" />
+        <col class="datamore" />
       <?php endif; ?>
     </colgroup>
 
@@ -36,7 +47,7 @@
         <th>Game ID</th>
         <th>Date</th>
         <th>Map</th>
-        <th>Time</th>
+        <th>Length</th>
         <th>Winner</th>
         <?php if(isset($this->order_name)): ?>
           <th><?php echo $this->order_name; ?></th>
@@ -54,7 +65,7 @@
 
     <tbody>
       <?php foreach ($this->games AS $game): ?>
-        <tr>
+        <tr class="list" >
           <td><a href="game_details.php?game_id=<?php echo $game['game_id']; ?>"><?php echo $game['game_id']; ?></a></td>
           <td><?php echo $game['game_timestamp']; ?></td>
           <td><?php echo replace_color_codes(htmlspecialchars($game['game_map_name'])); ?></td>
@@ -73,6 +84,11 @@
       <?php endif; ?>
     </tbody>
   </table>
+
+  <div class="filter">
+     Show empty games: <a href="games.php?hideempty=<?php echo (isset($this->hideempty)) ? "0" : "1"; echo $game_empty; ?>"><?php echo (isset($this->hideempty)) ? "No" : "Yes"; ?></a>
+  </div>
+
  </div>
 
  <?php include '__footer__.tpl.php'; ?>

@@ -1,3 +1,21 @@
+1.9.0 - November 22, 2009
+-----
+First release of Tremstats Too, supports Tremulous 1.2 beta games.log.
+
+ * Database structure overhauled to allow logging more data, including
+   stages, sudden death, votes, play time, score
+ * Log parser updated to parse 1.2 games.log
+ * Add a map balance page
+ * Add a map details page
+ * Add a page to show complete log of every game's action
+ * Clean up css, main goal was to use browser preferred font size
+ * Add a setup.sh script to aid in initial installation
+ * Add player tremulous signature page
+ * The log parser no longer splits up the log file, it remembers the
+   last point it stopped within games.log. As such it can no longer
+   be used to 'rotate' the games.log.
+
+
 0.6.0_slux_rez8 - 'early 2009'
 -----
 Based on the slux mod release of 0.6.0.

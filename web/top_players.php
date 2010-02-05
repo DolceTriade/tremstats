@@ -8,12 +8,16 @@
 
 require_once 'core/init.inc.php';
 
+$last_game  = $db->GetRow("SELECT game_id FROM games ORDER BY game_id DESC LIMIT 0, 1");
+$game_cutoff= $last_game['game_id'] - TRESHOLD_MAX_GAMES_PAUSED;
+
 $custom_orders = array (
   'rank'       => 'player_rank',
   'player'     => 'player_name_uncolored',
-  'kills'      => 'player_total_kills',
-  'team_kills' => 'player_total_teamkills',
-  'deaths'     => 'player_total_deaths',
+  'score'      => 'player_score_total',
+  'kills'      => 'player_kills',
+  'team_kills' => 'player_teamkills',
+  'deaths'     => 'player_deaths',
   'efficiency' => 'player_total_efficiency'
 );
 $order = get_custom_sort($custom_orders, 'rank');
@@ -24,22 +28,24 @@ $db->Execute("CREATE TEMPORARY TABLE tmp (
                        @n := @n + 1 AS player_rank,
                        player_name,
                        player_name_uncolored,
-                       player_total_kills,
-                       player_total_teamkills,
-                       player_total_deaths,
+                       player_score_total,
+                       player_kills,
+                       player_teamkills,
+                       player_deaths,
                        player_total_efficiency
                 FROM players
                 WHERE player_games_played >= ?
-                      AND player_games_paused <= ?
+                      AND player_last_game_id > ?
                 ORDER BY player_total_efficiency DESC
-              )", array(TRESHOLD_MIN_GAMES_PLAYED, TRESHOLD_MAX_GAMES_PAUSED));
+              )", array(TRESHOLD_MIN_GAMES_PLAYED, $game_cutoff));
 
 $pagelister->SetQuery("SELECT player_id,
                               player_rank,
                               player_name,
-                              player_total_kills,
-                              player_total_teamkills,
-                              player_total_deaths,
+                              player_score_total,
+                              player_kills,
+                              player_teamkills,
+                              player_deaths,
                               player_total_efficiency
                        FROM tmp
                        ORDER BY ".$order);

@@ -3,14 +3,16 @@
 <div id="box">
   <h2>Server Status</h2>
 
+  <?php if (isset($this->server_status)): ?>
+
   <table>
     <colgroup>
+      <col class="playername" />
       <col />
-      <col width="70" />
-      <col width="70" />
       <col />
-      <col width="70" />
-      <col width="70" />
+      <col class="playername" />
+      <col />
+      <col />
     </colgroup>
 
     <thead>
@@ -32,10 +34,10 @@
       <?php else: ?>
         <tr>
           <th>Player</th>
-          <th>Kills</th>
+          <th>Score</th>
           <th>Ping</th>
           <th>Player</th>
-          <th>Kills</th>
+          <th>Score</th>
           <th>Ping</th>
         </tr>
 
@@ -47,7 +49,7 @@
           ?>
           <tr>
             <?php if (!is_null($alien)): ?>
-              <td><?php echo replace_color_codes(htmlspecialchars($alien['name'])); ?></td>
+              <td class="playername"><?php echo replace_color_codes(htmlspecialchars($alien['name'])); ?></td>
               <td><?php echo $alien['kills']; ?></td>
               <td><?php echo $alien['ping']; ?></td>
             <?php else: ?>
@@ -55,7 +57,7 @@
             <?php endif; ?>
 
             <?php if (!is_null($human)): ?>
-              <td><?php echo replace_color_codes(htmlspecialchars($human['name'])); ?></td>
+              <td class="playername"><?php echo replace_color_codes(htmlspecialchars($human['name'])); ?></td>
               <td><?php echo $human['kills']; ?></td>
               <td><?php echo $human['ping']; ?></td>
             <?php else: ?>
@@ -81,10 +83,10 @@
 
   <table>
     <colgroup>
-      <col width="170" />
-      <col width="120" />
+      <col class="levelshot" />
+      <col class="item" />
       <col />
-      <col width="210" />
+      <col class="chart" />
     </colgroup>
 
     <thead>
@@ -95,35 +97,45 @@
 
     <tbody>
       <tr>
-        <td rowspan="4">
-          <img width="160" height="120" alt="<?php echo htmlspecialchars($this->running_map['game_map_name']); ?>" src="_levelshot.php?map_id=<?php echo ($this->running_map['game_map_id']); ?>" />
+        <td rowspan="5">
+          <img width="160" height="120" alt="<?php echo htmlspecialchars($this->running_map['map_text_name']); ?>" src="_levelshot.php?map_id=<?php echo ($this->running_map['map_id']); ?>" />
         </td>
         <td><strong>Map Name</strong></td>
-        <td><strong><?php echo replace_color_codes(htmlspecialchars($this->running_map['game_map_name'])); ?></strong></td>
-        <td rowspan="4">
-          <img width="200" height="120" alt="Winners in Games" src="_graph.php?type=wins_in_game&amp;map_id=<?php echo ($this->running_map['game_map_id']); ?>" />
+        <td><strong><a href="map_details.php?map_id=<?php echo $this->running_map['map_id'] ; ?>"><?php echo replace_color_codes(htmlspecialchars($this->running_map['map_text_name'])); ?></a></strong></td>
+        <td rowspan="5">
+          <img width="200" height="120" alt="Winners in Games" src="_graph.php?type=wins_in_game&amp;map_id=<?php echo ($this->running_map['map_id']); ?>" />
         </td>
       </tr>
       <tr>
         <td>Times Played</td>
-        <td><?php echo $this->running_map['game_map_played']; ?></td>
+        <td><?php echo $this->running_map['mapstat_games']; ?></td>
       </tr>
       <tr>
         <td>Alien Wins</td>
-        <td><?php echo $this->running_map['game_alien_wins']; ?></td>
+        <td><?php echo $this->running_map['mapstat_alien_wins']; ?></td>
       </tr>
       <tr>
         <td>Human Wins</td>
-        <td><?php echo $this->running_map['game_human_wins']; ?></td>
+        <td><?php echo $this->running_map['mapstat_human_wins']; ?></td>
+      </tr>
+      <tr>
+        <td>Ties</td>
+        <td><?php echo $this->running_map['ties']; ?></td>
       </tr>
     </tbody>
   </table>
+
+  <?php else: ?>
+    <blockquote>
+      <i>No response from server</i>
+    </blockquote>
+  <?php endif ?>
 
   <h2>Overview</h2>
 
   <table>
     <colgroup>
-      <col width="140" />
+      <col class="item" />
       <col />
     </colgroup>
 
@@ -148,14 +160,14 @@
       </tr>
       <tr>
         <td>Tied Matches</td>
-        <td><?php echo $this->overview['tied']; ?></td>
+        <td><?php echo $this->overview['ties']; ?></td>
       </tr>
     </tbody>
   </table>
 
   <table>
     <colgroup>
-      <col width="140" />
+      <col class="item" />
       <col />
     </colgroup>
 
@@ -179,6 +191,10 @@
         <td><span class="playername"><a href="player_details.php?player_id=<?php echo $this->overview['top_teamkiller']['player_id'] ?>"><?php echo replace_color_codes(htmlspecialchars($this->overview['top_teamkiller']['player_name'])); ?></a></span> (Average Team Kills: <?php echo $this->overview['top_teamkiller']['average_kills_to_team']; ?>)</td>
       </tr>
       <tr>
+        <td>Top Score</td>
+        <td><span class="playername"><a href="player_details.php?player_id=<?php echo $this->overview['top_score']['player_id'] ?>"><?php echo replace_color_codes(htmlspecialchars($this->overview['top_score']['player_name'])); ?></a></span> (Score: <?php echo $this->overview['top_score']['stats_score']; ?>)</td>
+      </tr>
+      <tr>
         <td>Most Active Player</td>
         <td><span class="playername"><a href="player_details.php?player_id=<?php echo $this->overview['most_active_player']['player_id'] ?>"><?php echo replace_color_codes(htmlspecialchars($this->overview['most_active_player']['player_name'])); ?></a></span> (Game-time factor: <?php echo $this->overview['most_active_player']['player_game_time_factor']; ?>)</td>
       </tr>
@@ -187,10 +203,10 @@
 
   <table>
     <colgroup>
-      <col width="170" />
-      <col width="120" />
+      <col class="levelshot" />
+      <col class="item" />
       <col />
-      <col width="210" />
+      <col class="chart" />
     </colgroup>
 
     <thead>
@@ -201,31 +217,35 @@
 
     <tbody>
       <tr>
-        <td rowspan="4">
-          <img width="160" height="120" alt="<?php echo htmlspecialchars($this->overview['most_played_map']['game_map_name']); ?>" src="_levelshot.php?map_id=<?php echo ($this->overview['most_played_map']['game_map_id']); ?>" />
+        <td rowspan="5">
+          <img width="160" height="120" alt="<?php echo htmlspecialchars($this->overview['most_played_map']['map_text_name']); ?>" src="_levelshot.php?map_id=<?php echo ($this->overview['most_played_map']['map_id']); ?>" />
         </td>
         <td><strong>Map Name</strong></td>
-        <td><strong><?php echo replace_color_codes(htmlspecialchars($this->overview['most_played_map']['game_map_name'])); ?></strong></td>
-        <td rowspan="4">
-          <img width="200" height="120" alt="Winners in Games" src="_graph.php?type=wins_in_game&amp;map_id=<?php echo ($this->overview['most_played_map']['game_map_id']); ?>" />
+        <td><strong><a href="map_details.php?map_id=<?php echo $this->overview['most_played_map']['map_id'] ; ?>"><?php echo replace_color_codes(htmlspecialchars($this->overview['most_played_map']['map_text_name'])); ?></a></strong></td>
+        <td rowspan="5">
+          <img width="200" height="120" alt="Winners in Games" src="_graph.php?type=wins_in_game&amp;map_id=<?php echo ($this->overview['most_played_map']['map_id']); ?>" />
         </td>
       </tr>
       <tr>
         <td>Times Played</td>
-        <td><?php echo $this->overview['most_played_map']['game_map_played']; ?></td>
+        <td><?php echo $this->overview['most_played_map']['mapstat_games']; ?></td>
       </tr>
       <tr>
         <td>Alien Wins</td>
-        <td><?php echo $this->overview['most_played_map']['game_alien_wins']; ?></td>
+        <td><?php echo $this->overview['most_played_map']['mapstat_alien_wins']; ?></td>
       </tr>
       <tr>
         <td>Human Wins</td>
-        <td><?php echo $this->overview['most_played_map']['game_human_wins']; ?></td>
+        <td><?php echo $this->overview['most_played_map']['mapstat_human_wins']; ?></td>
+      </tr>
+      <tr>
+        <td>Ties</td>
+        <td><?php echo $this->overview['most_played_map']['ties']; ?></td>
       </tr>
     </tbody>
   </table>
 
- <div id="update">Last update: <?php echo $this->state['log_timestamp']; ?></div>
+ <div class="update">Last update: <?php echo $this->state['log_timestamp']; ?></div>
 
 </div>
 

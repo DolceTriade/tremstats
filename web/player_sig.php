@@ -8,14 +8,12 @@
 
 require_once 'core/init.inc.php';
 
-header("Content-type: image/png");
-
 if (!isset($_GET['player_id'])) {
   die('No player id given');
 }
 
 // basic info
-$servername = "^1House of ^2Nuts";
+$servername = TREMULOUS_SERVER_NAME;
 
 switch( $_GET['style'] ) {
   case 1:
@@ -30,14 +28,19 @@ switch( $_GET['style'] ) {
 }
 
 // Get the data
-$stats = $db->GetRow("SELECT player_name,
-                             player_total_kills,
-                             player_total_deaths
+$stats = $db->GetRow("SELECT player_id,
+                             player_name,
+                             player_kills,
+                             player_deaths
                       FROM players
                       WHERE player_id = ?",
                       array($_GET['player_id']));
 
-$random_quote = $db->GetRow("SELECT say_mode, say_message
+if( !isset($stats['player_id']) ):
+  die ("player id not found");
+endif;
+
+$random_quote = $db->GetRow("SELECT say_message
                              FROM says
                              WHERE say_player_id = ?
                              ORDER BY RAND()
@@ -51,9 +54,14 @@ $colors = array(
   '3' => array( 0 => 255, 255, 0 ), // Yellow
   '4' => array( 0 => 0, 0, 255 ),   // Blue
   '5' => array( 0 => 0, 255, 255 ),   // Cyan
-  '6' => array( 0 => 255, 0, 255 ),   // Pink
+  '6' => array( 0 => 255, 0, 255 ),   // Magenta
   '7' => array( 0 => 255, 255, 255 ),  // White
 );
+
+
+// safe to start image at this point
+header("Content-type: image/png");
+
 
 $im = imagecreatetruecolor($w, $h);
 
@@ -61,6 +69,35 @@ for($i = 0; $i < 8; $i++)
 {
   $colors[$i]['alloc'] = imagecolorallocate($im, $colors[$i][0], $colors[$i][1], $colors[$i][2]);
   $colors[$i]['alpha'] = imagecolorallocatealpha($im, $colors[$i][0], $colors[$i][1], $colors[$i][2], 64);
+}
+
+function char_width( $size )
+{
+  switch( $size ) {
+    case 1: return 5;
+    case 2: return 6;
+    case 3: return 7;
+    case 4: return 8;
+    default:
+        break;
+    }
+
+  return 9;
+}
+
+function string_width( $size, $string ) {
+  $w = 0;
+
+  for ($i = 0, $l = strlen($string); $i < $l; $i++) {
+    $c = $string[$i];
+
+    if($c == '^') {
+      if($i < $l) $i++;
+      continue;
+    }
+    $w += char_width( $size );
+  }
+  return $w;
 }
 
 function color_print( $x, $y, $string, $im, $colors, $size, $alpha ) {
@@ -91,23 +128,7 @@ function color_print( $x, $y, $string, $im, $colors, $size, $alpha ) {
       continue;
     }
     imagechar( $im, $size, $x, $y, $c, $color );
-    switch( $size ) {
-      case 1:
-        $x += 5;
-        break;
-      case 2:
-        $x += 6;
-        break;
-      case 3:
-        $x += 7;
-        break;
-      case 4:
-        $x += 8;
-        break;
-      default:
-        $x += 9;
-        break;
-    }
+    $x += char_width( $size );
   }
 }
 
@@ -126,18 +147,22 @@ switch( $_GET['style'] ) {
   imagecopy( $im, $b, 0, 0, 0, 0, $w, $h );
 
   color_print( 10, $ny, $stats['player_name'], $im, $colors, 5, 0 );
-  color_print( 370, 19, $servername, $im, $colors, 5, 1 );
 
-  $msg = "^2".substr( $random_quote['say_message'], 0, 70 );
-  color_print( 14, 24, $msg, $im, $colors, 1, 1 );
+  $sw = string_width( 5, $servername );
+  color_print( 490 - $sw, 19, $servername, $im, $colors, 5, 1 );
+
+  if( !empty( $random_quote['say_message'] ) ):
+    $msg = "^2".substr( $random_quote['say_message'], 0, 59 );
+    color_print( 14, 24, $msg, $im, $colors, 1, 1 );
+  endif;
 
   $colorstat = imagecolorallocatealpha($im, 0xFF, 0xFF, 0xEE, 40);
 
-  imagestring( $im, 5, 220, $ty, "Frags:", $colorstat );
-  imagestring( $im, 5, 280, $ty, $stats['player_total_kills'], $colorstat );
+  imagestring( $im, 5, 220, $ty, "Kills:", $colorstat );
+  imagestring( $im, 5, 280, $ty, $stats['player_kills'], $colorstat );
 
-  imagestring( $im, 5, 370, $ty, "Fubars:", $colorstat );
-  imagestring( $im, 5, 440, $ty, $stats['player_total_deaths'], $colorstat );
+  imagestring( $im, 5, 370, $ty, "Deaths:", $colorstat );
+  imagestring( $im, 5, 440, $ty, $stats['player_deaths'], $colorstat );
 
   break;
 default:
@@ -158,10 +183,10 @@ default:
   $colorstat = imagecolorallocatealpha($im, 0xFF, 0xFF, 0xFF, 40);
 
   imagestring( $im, 5, 250, 5, "Kills:", $colorstat );
-  imagestring( $im, 5, 320, 5, $stats['player_total_kills'], $colorstat );
+  imagestring( $im, 5, 320, 5, $stats['player_kills'], $colorstat );
 
   imagestring( $im, 5, 250, 25, "Deaths:", $colorstat );
-  imagestring( $im, 5, 320, 25, $stats['player_total_deaths'], $colorstat );
+  imagestring( $im, 5, 320, 25, $stats['player_deaths'], $colorstat );
 
   break;
 }

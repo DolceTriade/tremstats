@@ -24,7 +24,7 @@ function replace_color_codes ($string) {
     '3' => 'yellow', // Yellow
     '4' => 'blue',   // Blue
     '5' => 'cyan',   // Cyan
-    '6' => 'pink',   // Pink
+    '6' => 'magenta',// Magenta
     '7' => 'white',  // White
   );
 

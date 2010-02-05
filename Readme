@@ -1,32 +1,34 @@
+Tremstats Too 1.9.0
+For Tremulous 1.2 games.log
+
 Requirements
 -------------------------------------------------------------------------------
 You need atleast the following things for the Tremulous server:
 	- Python 2.4 or 2.5 (tested with 2.4)
-	- Site-Packages:
-        MySQLdb
-        Python Imaging Library (PIL)
+	- Site-Packages:                (common .deb or .rpm package name)
+           MySQLdb                      (python-mysqldb or MySQL-python)
+           Python Imaging Library "PIL" (python-imaging)
 
 And the following things for the webserver (may be the same box):
 	- MySQL 4.1 or higher
-	- PHP 5.0 or heigher
+	- PHP 5.1 or higher
+        - php-gd (php module for gd graphics library)
 
-You should also have created your logs so far with Tremulous patched with TJW,
-because it contains important things for the statistics in the logfiles.
+A server running:
+        - Tremulous 1.2
 
-Rezyn Notes:
- - A lakitu7 QVM or one based upon it should provide proper logfiles.
- - This release package does not support games.log archiving, instead it
-   will remember where the parser stopped within games.log and begin
-   from that point on the next run. logs with unfinished games are also
-   handled properly.
+Note: Windows specific code has been removed from the log parser, this plus
+      the lack of any testing whatsoever on Windows almost guarantees
+      that you will need to fix tremstats.py if you plan to parse
+      logs on a Windows platform.
 
-QVM compatibility
--------------------------------------------------------------------------------
-For logging team kills, you need a QVM newer than the original 1.1 qvm.
 
 
 Installation
 -------------------------------------------------------------------------------
+To make it slightly easier, a setup.sh script is included which will walk
+you through setting up the initial database config files. (needs bash)
+
 First you have to setup your MySQL database. So create a new database or change
 to an existing one. Then execute the both SQL files 'structure.sql' and
 'data.sql'.
@@ -40,15 +42,15 @@ lines and enter your MySQL data and location of the 'games.log' and all
 your custom maps PK3s. After this part is done, you may parse your log which
 was created so far by typing './tremstats.py'.
 
-You may want to parse your logfile every 10 minutes or something like that.
+You may want to parse your logfile every 12 hours or something like that.
+(as your database gets bigger, calculating stats will take more time, so
+ try to avoid parsing more than once or twice a day unless you have
+ processing power to spare -Rezyn )
 If you use crontab, you can enter the following line into '/etc/crontab':
 
-	*/10 * * * * root /usr/local/games/tremstats/tremstats.py
+       0 */12 * * * root /usr/local/games/tremstats/tremstats.py
 
 For further information about crontab, see Google.
-
-Last but not least, add the setting 'set g_logsync 0' to your server.cfg.
-( I see no need for g_logsync in my version of tremstats - Rezyn )
 
 Now, as you have setup all important things, you also want to see some output.
 So copy all files from 'output' to a directory reachable from the internet.
@@ -76,11 +78,11 @@ syntax. Even if you don't know PHP but HTML, you will understand the really
 simple syntax used there.
 
 If you change the colors background behind the graphs, you may also edit the
-'_graphs.php' file and set the colors their.
+'_graphs.php' file and set the colors there.
 
 
 
-Special Thanks
+Special Thanks from DASPRiD
 -------------------------------------------------------------------------------
 I want to thank Ingar, who supported me with a lot of knowledge about linux
 and helped me to test the parser several times. He also patched Tremulous for
@@ -101,15 +103,17 @@ information and gave me lots of tips. Your are the best!
 
 Contact
 -------------------------------------------------------------------------------
-You like Tremstats and want to contact me? Well, there are several ways.
-
-Tremstats 0.6.0-rezX
+DO NOT Contact DASPRiD about problems with this 'Tremstats Too' fork,
+please contact Rezyn.
+-------------------------------------------------------------------------------
+Tremstats Too 1.9.0
   Changes since 0.6.0 that are in this packaged release
 
 Name:    Rezyn
 E-Mail:  rezyn0@gmail.com
 Website: fixme :(
 
+-------------------------------------------------------------------------------
 Tremstats 0.6.0:
   Original tremstats release by DASPRID
 
@@ -119,3 +123,4 @@ ICQ:     105677955
 IRC:     #DASPRiDs @ quakenet
 E-Mail:  mail@dasprids.de
 Website: http://www.dasprids.de
+

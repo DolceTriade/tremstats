@@ -45,21 +45,14 @@ class Tremstats:
 	def Main(self):
 		# Internal datas
 		self.games_log         = CONFIG['GAMES_LOG']
-		self.static_log        = False
 		self.pk3_dir           = CONFIG['PK3_DIR']
-		self.archive_dir       = CONFIG['ARCH_DIR']
 		self.calconly          = False
 		self.pk3only           = False
 		self.parseonly         = False
 		self.one_pk3           = None
 		self.reparse           = False
-		self.archive_log       = True
 		self.maps              = {}
 		self.players_to_update = []
-
-		# Set the archive dir to default if requested
-		if self.archive_dir == None:
-			self.archive_dir = os.path.abspath(sys.path[0]) + '/archived_logs/'
 
 		# Check for command line arguments
 		self.Check_command_line_arguments()
@@ -71,71 +64,49 @@ class Tremstats:
 		if self.one_pk3 != None:
 			pk3reader = Reader()
 			pk3reader.Main(self.dbc, self.Check_map_in_database, None, self.one_pk3)
-			return;
+			return
+
+		# Read pk3 map files
+		if self.calconly == False:
+			pk3reader = Reader()
+			pk3reader.Main(self.dbc, self.Check_map_in_database, self.pk3_dir, None)
+			if self.pk3only == True:
+				return
 
 		# Check for reparsing
 		if self.reparse == True:
 			# Set variables for reparsing
-			self.static_log  = True
-			self.calconly    = False
-			self.pk3only     = False
-			self.archive_log = False
-			self.games_log   = os.path.abspath(sys.path[0]) + '/games.log.reparse'
+			self.calconly  = False
+			self.parseonly = False
+
+			print "clearing database and reparsing entire log..."
 
 			# Clear the database
+			self.dbc.execute("TRUNCATE `builds`")
 			self.dbc.execute("TRUNCATE `decons`")
 			self.dbc.execute("TRUNCATE `destructions`")
-			self.dbc.execute("TRUNCATE `games`")
 			self.dbc.execute("TRUNCATE `kills`")
+			self.dbc.execute("TRUNCATE `games`")
+			self.dbc.execute("TRUNCATE `map_stats`")
 			self.dbc.execute("TRUNCATE `per_game_stats`")
 			self.dbc.execute("TRUNCATE `players`")
 			self.dbc.execute("TRUNCATE `nicks`")
 			self.dbc.execute("TRUNCATE `says`")
-
-			# Create the log to reparse
-			print "Creating reparse-log ..."
-
-			reparse_log = open(self.games_log, 'w')
-
-			archived_logs = os.listdir(self.archive_dir)
-			archived_logs.sort()
-
-			for archived_log in archived_logs:
-				log_abs_path = self.archive_dir + '/' + archived_log
-				if not os.path.isfile(log_abs_path):
-					continue
-
-				log = open(log_abs_path, 'r')	
-				lines = log.readlines()
-				log.close()
-
-				for line in lines:
-					reparse_log.write(line)
-
-			reparse_log.close()
+			self.dbc.execute("TRUNCATE `votes`")
+			self.dbc.execute("TRUNCATE `state`")
 
 		# Parse log
-		if self.calconly == False and self.pk3only == False:
+		if self.calconly == False:
 			parser = Parser()
-			result = parser.Main(self.dbc, self.Check_map_in_database, self.Add_player_to_update, self.games_log, self.static_log, self.archive_log, self.archive_dir)
+			result = parser.Main(self.dbc, self.Check_map_in_database, self.Add_player_to_update, self.games_log)
 			if result == None:
 				# nothing parsed, exit fast
-				self.pk3only = True
-				self.calconly = True
-
-		# Remove log if reparsing
-		if self.reparse == True:
-			os.remove(self.games_log)
+				self.parseonly = True
 
 		# Calculate data out of the parsed log
-		if self.pk3only == False and self.parseonly == False:
+		if self.parseonly == False:
 			calculator = Calculator()
-			calculator.Main(self.dbc, self.players_to_update)
-
-		# Read PK3 files
-		if self.calconly == False:
-			pk3reader = Reader()
-			pk3reader.Main(self.dbc, self.Check_map_in_database, self.pk3_dir, None)
+			calculator.Main(self.dbc, self.players_to_update, self.calconly)
 
 	""" Check command line arguments """
 	def Check_command_line_arguments(self):
@@ -152,7 +123,6 @@ class Tremstats:
 					print "--calconly:    Only calculate data for MySQL"
 					print "--parseonly:   Only parse the log file (debugging)"
 					print "--pk3only:     Only fetch data from PK3s"
-					print "--noarchive:   Don't archive the log"
 					print "--log=<file>:  Parse another log than default"
 					print "--pk3=<dir>:   Read another dir than default"
 					print "--map=<file>:  Parse a single map pk3 for levelshot"
@@ -166,8 +136,6 @@ class Tremstats:
 					self.pk3only = True
 				elif arg_data[0] == '--reparse':
 					self.reparse = True
-				elif arg_data[0] == '--noarchive':
-					self.archive_log = False
 				else:
 					sys.exit("Invalid arguments, see `tremstats.py --help`")
 			elif len(arg_data) == 2:

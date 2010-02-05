@@ -7,7 +7,7 @@ html, body {
 
 * {
   font-family: Verdana, Arial, Helvetica, Sans;
-  font-size: 12px;
+  font-size: 100%;
   color: #FFFFFF;
 }
 
@@ -15,29 +15,27 @@ img {
   border: none;
 }
 
-form {
+form.search {
   float: right;
   margin: 0;
   padding: 0;
 }
 
-form fieldset {
-  margin: 10px 0;
-  padding: 5px;
+form.search fieldset {
+  margin: 0.5em 0;
+  padding: 0.5em;
   border: 1px solid #707880;
   background-color: #1a1c1e;
 }
 
-form fieldset label {
-  float: left;
-  margin-top: 2px;
-  margin-right: 10px;
+form.search fieldset label {
+  vertical-align: middle;
 }
 
-form fieldset input[type="text"] {
-  float: left;
-  padding: 1px 4px;
-  width: 200px;
+form.search fieldset input[type="text"] {
+  width: 15em;
+  margin: 0 0.5em 0 0;
+  vertical-align: middle;
 
   background-color: #22262a;
   border-top: 1px solid #040505;
@@ -46,11 +44,8 @@ form fieldset input[type="text"] {
   border-right: 1px solid #57616b;
 }
 
-form fieldset input[type="submit"] {
-  float: right;
-  padding: 1px 4px;
-  margin-left: 10px;
-  width: 60px;
+form.search fieldset input[type="submit"] {
+  vertical-align: middle;
 
   background-color: #22262a;
   border-top: 1px solid #57616b;
@@ -59,82 +54,93 @@ form fieldset input[type="submit"] {
   border-right: 1px solid #040505;
 }
 
-form fieldset input[type="submit"]:hover {
+form.search fieldset input[type="submit"]:hover {
   border-top: 1px solid #040505;
   border-left: 1px solid #040505;
   border-bottom: 1px solid #57616b;
   border-right: 1px solid #57616b;
 }
 
-a:active, a:link, a:visited, a:hover {
+a:active, a:link, a:visited {
   color: #FFFFFF;
   text-decoration: none;
 }
 
+a:hover {
+  color: #FFFFFF;
+  text-decoration: underline;
+}
+
 #header {
-  width: 800px;
-
-  margin: 10px auto;
-}
-
-h1 {
-  float: left;
-  margin: 0;
-
-  font-size: 35px;
-  font-weight: bold;
-}
-
-#menu {
-  clear: both;
-
-  display: block;
-  width: 800px;
-  height: 16px;
-
-  margin: 0 auto;
-  padding: 2px 0 0 0;
-
-  background: url(images/menu.png) #111111;
-  border-top: 1px solid #7a7a79;
-  border-left: 1px solid #7a7a79;
-  border-bottom: 1px solid #141414;
-  border-right: 1px solid #141414;
-}
-
-#menu li {
-  float: left;
-  list-style-type: none;
-  margin: 0 1px 0 -1px;
+  width: 60em;
+  margin: 0.5em auto;
   padding: 0;
 }
 
-#menu li a:active, #menu li a:link, #menu li a:visited, #menu li a:hover {
+h1 {
+  font-size: 1.6em;
+  font-weight: bold;
   margin: 0;
-  padding: 2px 5px;
+}
+
+sup.too {
+  font-size: 0.5em;
+  font-weight: normal;
+  color: #9F9F9F;
+}
+
+span.for {
+  font-size: 0.5em;
+  font-weight: normal;
+  vertical-align: baseline;
+}
+
+ul.menu {
+  clear: both;
+
+  width: 60em;
+
+  margin: 0 auto;
+  padding: 0;
+
+  background: url(images/bar.png) #111111;
   border-top: 1px solid #7a7a79;
   border-left: 1px solid #7a7a79;
   border-bottom: 1px solid #141414;
   border-right: 1px solid #141414;
-  color: #FFFFFF;
 }
 
-#menu li a:hover {
+ul.menu li {
+  display: inline-block;
+  list-style-type: none;
+
+  margin: -1px 1px -1px -1px;
+  padding: 4px 0;
+}
+
+ul.menu li a:active, ul.menu li a:link, ul.menu li a:visited {
+  color: #FFFFFF;
+  text-decoration: none;
+  padding: 3px 0.5em;
+
+  border-top: 1px solid #7a7a79;
+  border-left: 1px solid #7a7a79;
+  border-bottom: 1px solid #141414;
+  border-right: 1px solid #141414;
+}
+
+ul.menu li a:hover {
   border-top: 1px solid #141414;
   border-left: 1px solid #141414;
   border-bottom: 1px solid #7a7a79;
   border-right: 1px solid #7a7a79;
 }
 
-#menu br {
-  clear: left;
-}
-
 #box {
-  width: 780px;
+  width: 58em;
 
-  margin: 0 auto 10px auto;
-  padding: 10px;
+  margin: 0 auto;
+  padding: 1em;
 
   border: 1px solid #707880;
   border-top: none;
@@ -142,28 +148,34 @@ h1 {
 }
 
 #footer {
-  width: 800px;
+  width: 60em;
 
-  margin: 10px auto;
+  margin: 0.5em auto;
 
+  font-size: 1em;
   text-align: right;
 }
 
-#footer, #footer * {
-  font-size: 9px;
-}
-
 #footer a:active, #footer a:link, #footer a:visited, #footer a:hover {
-  color: #FFFFFF;
-  text-decoration: underline;
+  color: #9FFFFF;
 }
 
-#footer span {
- float: left;
+#footer_time {
+  font-size: 0.8em;
+  float: left;
+  color: #9F9F9F;
+}
+
+#footer_release {
+  font-size: 1em;
+}
+
+#footer_credits {
+  font-size: 0.8em;
 }
 
 h2 {
-  margin: 0 0 10px 0;
+  margin: 0 0 1em 0;
   padding: 0;
 }
 
@@ -176,6 +188,27 @@ table {
   border-spacing: 0;
 }
 
+table.legend {
+  width: 20%;
+  margin-left: auto;
+  margin-right: 0;
+}
+
+table.legend td.a {
+  background-color: #CC0000;
+  color: #FFFFFF;
+}
+
+table.legend td.b {
+  background-color: #888888;
+  color: #000000;
+}
+
+table.legend td.c {
+  background-color: #0055FF;
+  color: #FFFFFF;
+}
+
 th, td {
   padding: 1px 3px;
 
@@ -184,24 +217,36 @@ th, td {
 
 th {
   text-align: left;
-  background: url(images/table_th.png) #111111;
+  background: url(images/bar.png) #111111;
   border-top: 1px solid #7a7a79;
   border-left: 1px solid #7a7a79;
   border-bottom: 1px solid #141414;
   border-right: 1px solid #141414;
 }
 
-th, th a:active, th a:link, th a:visited, th a:hover {
-  color: #FFFFFF;
+tbody.padded td {
+  padding: 1em;
+}
+
+tr {
+  background-color: #22262a;
+}
+
+tr.spacer {
+  height: 1em;
+}
+
+tr.list:hover {
+  background-color: #32363a;
 }
 
 td {
-  background-color: #22262a;
   border-top: 1px solid #57616b;
   border-left: 1px solid #57616b;
   border-bottom: 1px solid #040505;
   border-right: 1px solid #040505;
 }
+
 
 td.quote_public {
   color: #00FF00;
@@ -213,6 +258,10 @@ td.quote_team {
 
 span.playername, span.playername *, td.playername, td.playername * {
   color: #FFFFFF;
+}
+
+td.playername {
+  overflow: hidden;
 }
 
 td.playerothernames {
@@ -244,7 +293,7 @@ span.quakecolor_cyan {
   color: #00FFFF;
 }
 
-span.quakecolor_pink {
+span.quakecolor_magenta {
   color: #FF00FF;
 }
 
@@ -252,20 +301,81 @@ span.quakecolor_white {
   color: #FFFFFF;
 }
 
-#update {
+div.update {
   text-align: right;
 }
 
-#box_header {
-  width: 780px;
+div.heading {
+  width: 100%;
   text-align: left;
 }
 
-#box_header span.box_title {
+span.heading {
   float: left;
 }
 
-#box_header span.box_select {
+span.headinglink {
   float: right;
+}
+
+div.filter {
+  width: 100%;
+  text-align: right;
+}
+
+col.id {
+  width: 8%;
+}
+
+col.data {
+  width: 10%;
+}
+
+col.datamore {
+  width: 12%;
+}
+
+col.datawide {
+  width: 14%;
+}
+
+col.datadouble {
+  width: 24%;
+}
+
+col.item {
+  width: 20%;
+}
+
+col.playername {
+  width: 30%;
+}
+
+col.playernamewide {
+  width: 40%;
+}
+
+col.weaponicon {
+  width: 42px;
+}
+
+col.levelshot {
+  width: 170px;
+}
+
+col.chart {
+  width: 210px;
+}
+
+col.balancebar {
+  width: 410px;
+}
+
+input.sig {
+  background-color: #22262a;
+  border-top: 1px solid #040505;
+  border-left: 1px solid #040505;
+  border-bottom: 1px solid #57616b;
+  border-right: 1px solid #57616b;
 }
 

@@ -1,3 +1,51 @@
+2009-11-22 Rezyn <rezyn0@gmail.com>
+	* update jpgraph to 3.0.6, add a copy of it's license
+	  and remove the flags data which will never be used
+	* make pages die gracefully and don't spew http errors to
+	  the http log with an invalid game / map / player id
+	* release 1.9.0 for testing
+
+2009-11-21 Rezyn <rezyn0@gmail.com>
+	* add map balance chart page
+
+2009-11-20 Rezyn <rezyn0@gmail.com>
+	* add map details page
+	* show score total in top players
+	* show recent top score in overview
+
+2009-11-18 Rezyn <rezyn0@gmail.com>
+	* Log more info per player
+	* Add more to the player details page
+
+2009-11-15 Rezyn <rezyn0@gmail.com>
+	* parse votes into new 'votes' table
+	* log time of sudden death and stage-ups
+	* log how long a player is playing by team
+	* show sd, stage-ups, votes in game_log.php
+	* don't spew php errors when trem server is down
+
+2009-11-13 Rezyn <rezyn0@gmail.com>
+	* more general web layout and css cleanups
+	* added player_getsig.php for player sig images
+	* add TREMULOUS_SERVER_NAME config for web
+
+2009-11-11 Rezyn <rezyn0@gmail.com>
+	* add game log web page
+	* make chat log which team when it was team chat
+	* fix MOD_ASPAWN and MOD_HSPAWN description
+	* clean up some css
+
+2009-11-10 Rezyn <rezyn0@gmail.com>
+	* add a setup.sh script
+
+2009-11-09 Rezyn <rezyn0@gmail.com>
+	* Make web pages size nicely with browser's preferred font size
+
+2009-11-07 Rezyn <rezyn0@gmail.com>
+	* Begin Tremstats Too, a fork for Tremulous 1.2
+	* clean up tremstats.py, and support 1.2 games.log format
+	* database structure has changed to accomodate score, builds
+
 2009-09-02 Rezyn <rezyn0@gmail.com>
 	* fix ClientRename parsing
 	* fix player lookup by name in chat parser

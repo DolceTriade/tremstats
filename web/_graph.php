@@ -65,16 +65,16 @@ switch ($_GET['type']) {
 
     // Get points
     $kill_spline = new Spline($kill_games, $kill_data);
-    list($kill_newx, $kill_newy) = $kill_spline->Get(700);
+    list($kill_newx, $kill_newy) = $kill_spline->Get(500);
     
     $teamkill_spline = new Spline($teamkill_games, $teamkill_data);
-    list($teamkill_newx, $teamkill_newy) = $teamkill_spline->Get(700);
+    list($teamkill_newx, $teamkill_newy) = $teamkill_spline->Get(500);
     
     $death_spline = new Spline($death_games, $death_data);
-    list($death_newx, $death_newy) = $death_spline->Get(700);
+    list($death_newx, $death_newy) = $death_spline->Get(500);
 
     // Create the graph
-    $g = new Graph(773,200);
+    $g = new Graph(573,200);
     $g->SetMargin(30,10,10,10);
     $g->SetMarginColor('#22262a');
     $g->SetColor('#22262a');
@@ -84,7 +84,7 @@ switch ($_GET['type']) {
 
     // We need a linlin scale since we provide both
     // x and y coordinates for the data points.
-    $g->SetScale('linlin', 0, 150);
+    $g->SetScale('linlin', 0, 100);
 
     // Set the grid
     $g->yaxis->SetLabelFormat('%d');
@@ -116,7 +116,7 @@ switch ($_GET['type']) {
 
   case 'kills_in_game':
     if (!isset($_GET['game_id'])) {
-      die('No player id given');
+      die('No game id given');
     }
 
     require_once 'core/jpgraph/jpgraph_line.php';
@@ -139,8 +139,8 @@ switch ($_GET['type']) {
                          WHERE game_id = ?",
                          array($_GET['game_id']));
 
-    sscanf($game['game_length'], "%d:%d", $mm, $ss);
-    $maxoffset = ($mm * 60 + $ss)/60;
+    sscanf($game['game_length'], "%d:%d:%d", $hh, $mm, $ss);
+    $maxoffset = (($hh * 60 + $mm) * 60 + $ss) / 60;
     $yscale = 0;
 
     $length = count($stats);
@@ -153,8 +153,8 @@ switch ($_GET['type']) {
     $world_numb = array();
     $world_data = array();
     foreach ($stats AS $stat) {
-      sscanf($stat['kill_gametime'], "%d:%d", $mm, $ss);
-      $stamp = ($mm * 60 + $ss)/60;
+      sscanf($stat['kill_gametime'], "%d:%d:%d", $hh, $mm, $ss);
+      $stamp = (($hh * 60 + $mm) * 60 + $ss) / 60;
       while ($offset < 2 || $offset < $stamp) {
         $alien_numb[] = $offset;
         $alien_data[] = 0;
@@ -185,7 +185,7 @@ switch ($_GET['type']) {
         if ($world_data[$k] > $yscale) $yscale = $world_data[$k];
       }
     }
-    while ($offset < 2 || $offset <= $maxoffset ) {
+    while ($offset < 3 || $offset <= $maxoffset ) {
       $alien_numb[] = $offset;
       $alien_data[] = 0;
       $human_numb[] = $offset;
@@ -198,16 +198,16 @@ switch ($_GET['type']) {
     if ($yscale < 10 ) $yscale = 10;
 
     $alien_spline = new Spline($alien_numb, $alien_data);
-    list($alien_newx, $alien_newy) = $alien_spline->Get(700);
+    list($alien_newx, $alien_newy) = $alien_spline->Get(500);
 
     $human_spline = new Spline($human_numb, $human_data);
-    list($human_newx, $human_newy) = $human_spline->Get(700);
+    list($human_newx, $human_newy) = $human_spline->Get(500);
 
     $world_spline = new Spline($world_numb, $world_data);
-    list($world_newx, $world_newy) = $world_spline->Get(700);
+    list($world_newx, $world_newy) = $world_spline->Get(500);
 
     // create graph
-    $g = new Graph(773,200);
+    $g = new Graph(573,200);
     $g->SetMargin(30,10,10,30);
     $g->SetMarginColor('#22262a');
     $g->SetColor('#22262a');
@@ -255,11 +255,17 @@ switch ($_GET['type']) {
     require_once 'core/jpgraph/jpgraph_pie.php';
 
     // Get data
-    $alien_wins = $db->GetRow("SELECT COUNT(*) AS count FROM games WHERE game_map_id = ? AND game_winner = 'aliens'", array($_GET['map_id']));
-    $human_wins = $db->GetRow("SELECT COUNT(*) AS count FROM games WHERE game_map_id = ? AND game_winner = 'humans'", array($_GET['map_id']));
-    $tied       = $db->GetRow("SELECT COUNT(*) AS count FROM games WHERE game_map_id = ? AND game_winner = 'none'", array($_GET['map_id']));
+    $wins = $db->GetRow("SELECT mapstat_alien_wins,
+                                mapstat_human_wins,
+                                mapstat_ties + mapstat_draws AS ties
+                         FROM map_stats WHERE mapstat_id = ?",
+                         array($_GET['map_id']));
+    if ($wins['mapstat_alien_wins'] + $wins['mapstat_human_wins'] + $wins['ties'] > 0):
+      $data  = array($wins['mapstat_alien_wins'], $wins['mapstat_human_wins'], $wins['ties']);
+    else:
+      $data  = array(0, 0, 1);
+    endif;
 
-    $data  = array($alien_wins['count'], $human_wins['count'], $tied['count']);
 
     // Build graph
     $g  = new PieGraph (200,120);
@@ -272,7 +278,7 @@ switch ($_GET['type']) {
     // Build plot
     $p1 = new PiePlot( $data);
     $p1->SetCenter(40, 60);
-    $p1->SetSliceColors(array('#CCCCCC', '#0000FF', '#FF0000'));
+    $p1->SetSliceColors(array('#CC0000', '#0055FF', '#888888'));
     $p1->value->show(false);
     $legends = array('Aliens (%d%%)', 'Humans (%d%%)', 'Tied (%d%%)');
     $p1->SetLegends($legends);
@@ -283,5 +289,107 @@ switch ($_GET['type']) {
     $g->Add($p1);
     $g->Stroke();
     break;
+
+  case 'map_balance':
+    if (!isset($_GET['map_id'])) {
+      die('No map id given');
+    }
+
+    require_once 'core/jpgraph/jpgraph_bar.php';
+
+    // Get data
+    $map = $db->GetRow("SELECT map_name,
+                               mapstat_alien_wins,
+                               mapstat_human_wins,
+                               mapstat_ties + mapstat_draws AS ties
+                        FROM map_stats
+                        INNER JOIN maps ON map_id = mapstat_id
+                        WHERE map_id = ?",
+                        array($_GET['map_id']));
+
+    $total = $map['mapstat_alien_wins'] + $map['mapstat_human_wins'] + $map['ties'];
+    $data_a  = array(($total) ? $map['mapstat_alien_wins'] * 100.0 / $total : 0);
+    $data_h  = array(($total) ? $map['mapstat_human_wins'] * 100.0 / $total : 0);
+    $data_t  = array(($total) ? $map['ties'] * 100.0 / $total : 100);
+
+    // Build graph
+    $graph = new Graph (400,30);
+    $graph->SetScale('textint');
+    $graph->Set90AndMargin(1, 1, 1, 1);
+    $graph->SetMarginColor('#22262a');
+    $graph->SetColor('#22262a');
+    $graph->SetFrame(true, '#FFFFFF', 0);
+
+    $bpa = new BarPlot($data_a);
+    $bpa->SetFillColor ('#CC0000');
+    $bpt = new BarPlot($data_t);
+    if ($total == 0):
+      $bpt->SetFillColor ('#222222');
+    else:
+      $bpt->SetFillColor ('#888888');
+    endif;
+    $bph = new BarPlot($data_h);
+    $bph->SetFillColor ('#0055FF');
+    $accplot = new AccBarPlot (array($bpa ,$bpt, $bph));
+    $accplot->SetWidth(16);
+
+    $graph->xaxis->Hide();
+    $graph->yaxis->HideLine();
+    $graph->yaxis->HideTicks();
+    $graph->yaxis->SetMajTickPositions(array(25, 50, 75));
+    $graph->ygrid->SetColor('#555555');
+
+    // Stroke
+    $graph->Add($accplot);
+    $graph->Stroke();
+    break;
+
+  case 'balance_bar':
+    require_once 'core/jpgraph/jpgraph_bar.php';
+
+    // Get data
+    $a = (isset($_GET['a'])) ? $_GET['a'] : 0;
+    $b = (isset($_GET['b'])) ? $_GET['b'] : 0;
+    $c = (isset($_GET['c'])) ? $_GET['c'] : 0;
+
+    $total = $a + $b + $c;
+    $data_a  = array(($total) ? $a * 100.0 / $total : 0);
+    $data_b  = array(($total) ? $b * 100.0 / $total : 100);
+    $data_c  = array(($total) ? $c * 100.0 / $total : 0);
+
+    // Build graph
+    $graph = new Graph (400,30);
+    $graph->SetScale('textint');
+    $graph->Set90AndMargin(1, 1, 1, 1);
+    $graph->SetMarginColor('#22262a');
+    $graph->SetColor('#22262a');
+    $graph->SetFrame(true, '#FFFFFF', 0);
+
+    $barplot = new BarPlot($data_a);
+
+    $bpa = new BarPlot($data_a);
+    $bpa->SetFillColor ('#CC0000');
+    $bpt = new BarPlot($data_b);
+    if ($total == 0):
+      $bpt->SetFillColor ('#222222');
+    else:
+      $bpt->SetFillColor ('#888888');
+    endif;
+    $bph = new BarPlot($data_c);
+    $bph->SetFillColor ('#0055FF');
+    $accplot = new AccBarPlot (array($bpa ,$bpt, $bph));
+    $accplot->SetWidth(16);
+
+    $graph->xaxis->Hide();
+    $graph->yaxis->HideLine();
+    $graph->yaxis->HideTicks();
+    $graph->yaxis->SetMajTickPositions(array(25, 50, 75));
+    $graph->ygrid->SetColor('#555555');
+
+    // Stroke
+    $graph->Add($accplot);
+    $graph->Stroke();
+    break;
+
 }
 ?>

@@ -1,7 +1,7 @@
 <?php
 /**
  * Project:     Tremstats
- * File:        most_active_players.php
+ * File:        most_played_maps.php
  *
  * For licence and version information, see /index.php
  */
@@ -11,10 +11,10 @@ require_once 'core/init.inc.php';
 if (isset($_GET['sort'])):
 	switch( $_GET['sort']):
 		case "alienwins":
-			$orderby = "game_alien_wins DESC";
+			$orderby = "mapstat_alien_wins DESC";
 			break;
 		case "humanwins":
-			$orderby = "game_human_wins DESC";
+			$orderby = "mapstat_human_wins DESC";
 			break;
 		case "mapname":
 			$orderby = "map_name ASC";
@@ -24,20 +24,31 @@ if (isset($_GET['sort'])):
 endif;
 
 if (!isset($orderby)):
-	$orderby = "game_map_played DESC";
+	$orderby = "mapstat_games DESC";
 	$order="";
 endif;
 
-$pagelister->SetQuery("SELECT COUNT(game_map_id) AS game_map_played,
-                              game_map_id,
+$db->Execute("SET @n = 0");
+$db->Execute("CREATE TEMPORARY TABLE tmp (
+                SELECT map_id,
+                       @n := @n + 1 AS map_rank,
+                       map_name,
+                       if (map_longname != '', map_longname, map_name) AS map_text_name,
+                       mapstat_games,
+                      mapstat_alien_wins,
+                      mapstat_human_wins
+                FROM map_stats
+                INNER JOIN maps ON map_id = mapstat_id
+                ORDER BY ".$orderby.")");
+
+$pagelister->SetQuery("SELECT map_id,
+                              map_rank,
                               map_name,
-                              if (map_longname != '', map_longname, map_name) AS game_map_name,
-                              (SELECT COUNT(*) FROM games awc WHERE awc.game_map_id = games.game_map_id AND awc.game_winner = 'aliens') AS game_alien_wins,
-                              (SELECT COUNT(*) FROM games hwc WHERE hwc.game_map_id = games.game_map_id AND hwc.game_winner = 'humans') AS game_human_wins
-                       FROM games
-                       INNER JOIN maps ON map_id = game_map_id
-                       WHERE game_winner != 'undefined'
-                       GROUP BY game_map_id
+                              map_text_name,
+                              mapstat_games,
+                              mapstat_alien_wins,
+                              mapstat_human_wins
+                       FROM tmp
                        ORDER BY ".$orderby);
 $top = $db->GetAll($pagelister->GetQuery());
 
