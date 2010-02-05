@@ -1,3 +1,6 @@
+2009-12-09 Rezyn <rezyn0@gmail.com>
+	* force a 0-100 bar scale in _graph.php
+
 2009-12-08 Rezyn <rezyn0@gmail.com>
 	* decided to make footer link to tremstats too homepage instead of
 	  a local zip file

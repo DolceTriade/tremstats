@@ -314,7 +314,7 @@ switch ($_GET['type']) {
 
     // Build graph
     $graph = new Graph (400,30);
-    $graph->SetScale('textint');
+    $graph->SetScale('textlin', 0, 100);
     $graph->Set90AndMargin(1, 1, 1, 1);
     $graph->SetMarginColor('#22262a');
     $graph->SetColor('#22262a');
@@ -359,13 +359,11 @@ switch ($_GET['type']) {
 
     // Build graph
     $graph = new Graph (400,30);
-    $graph->SetScale('textint');
+    $graph->SetScale('textlin', 0, 100);
     $graph->Set90AndMargin(1, 1, 1, 1);
     $graph->SetMarginColor('#22262a');
     $graph->SetColor('#22262a');
     $graph->SetFrame(true, '#FFFFFF', 0);
-
-    $barplot = new BarPlot($data_a);
 
     $bpa = new BarPlot($data_a);
     $bpa->SetFillColor ('#CC0000');
