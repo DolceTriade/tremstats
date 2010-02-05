@@ -49,7 +49,7 @@ INSERT INTO `weapons` (`weapon_id`, `weapon_constant`, `weapon_name`, `weapon_ic
 INSERT INTO `weapons` (`weapon_id`, `weapon_constant`, `weapon_name`, `weapon_icon`, `weapon_team`) VALUES (30, 'MOD_LEVEL2_CLAW', 'Marauders''s Claw', 'Alien/Aliens/Marauder.png', 'alien');
 INSERT INTO `weapons` (`weapon_id`, `weapon_constant`, `weapon_name`, `weapon_icon`, `weapon_team`) VALUES (31, 'MOD_LEVEL2_ZAP', 'Marauder''s Zap', 'Alien/Aliens/Advanced_Marauder_Zap.png', 'alien');
 INSERT INTO `weapons` (`weapon_id`, `weapon_constant`, `weapon_name`, `weapon_icon`, `weapon_team`) VALUES (32, 'MOD_LEVEL4_CLAW', 'Tyrant''s Claw', 'Alien/Aliens/Tyrant.png', 'alien');
-INSERT INTO `weapons` (`weapon_id`, `weapon_constant`, `weapon_name`, `weapon_icon`, `weapon_team`) VALUES (33, 'MOD_LEVEL4_CHARGE', 'Tyrant''s Charge', 'Alien/Aliens/Tyrant.png', 'alien');
+INSERT INTO `weapons` (`weapon_id`, `weapon_constant`, `weapon_name`, `weapon_icon`, `weapon_team`) VALUES (33, 'MOD_LEVEL4_TRAMPLE', 'Tyrant''s Trample', 'Alien/Aliens/Tyrant.png', 'alien');
 INSERT INTO `weapons` (`weapon_id`, `weapon_constant`, `weapon_name`, `weapon_icon`, `weapon_team`) VALUES (34, 'MOD_LEVEL4_CRUSH', 'Tyrant''s Crush', 'Alien/Aliens/Tyrant.png', 'alien');
 
 INSERT INTO `weapons` (`weapon_id`, `weapon_constant`, `weapon_name`, `weapon_icon`, `weapon_team`) VALUES (35, 'MOD_SLOWBLOB', 'Granger''s Spit', 'Alien/Aliens/Advanced_Granger.png', 'alien');
