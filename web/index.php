@@ -31,14 +31,18 @@ $reporter      = new TremulousReporter(TREMULOUS_ADDRESS);
 $server_status = $reporter->getStatus();
 
 // Sort by score (kills)
-foreach ($server_status['humans'] as $key => $row) {
-  $hkills[$key] = $row['kills'];
-}
-array_multisort( $hkills, SORT_NUMERIC, SORT_DESC, $server_status['humans'] );
-foreach ($server_status['aliens'] as $key => $row) {
-  $akills[$key] = $row['kills'];
-}
-array_multisort( $akills, SORT_NUMERIC, SORT_DESC, $server_status['aliens'] );
+if (!empty($server_status['humans'])):
+  foreach ($server_status['humans'] as $key => $row) {
+    $hkills[$key] = $row['kills'];
+  }
+  array_multisort( $hkills, SORT_NUMERIC, SORT_DESC, $server_status['humans'] );
+endif;
+if (!empty($server_status['aliens'])):
+  foreach ($server_status['aliens'] as $key => $row) {
+    $akills[$key] = $row['kills'];
+  }
+  array_multisort( $akills, SORT_NUMERIC, SORT_DESC, $server_status['aliens'] );
+endif;
 
 
 if (!empty($server_status['server_vars']['mapname'])):
