@@ -44,7 +44,7 @@ $players = $db->GetAll("SELECT player_name,
                         INNER JOIN players ON stats_player_id = player_id
                         WHERE stats_game_id = ?
                         GROUP BY player_id
-                        ORDER BY stats_kills DESC",
+                        ORDER BY stats_score DESC",
                         array($_GET['game_id']));
 
 // Assign variables to template
