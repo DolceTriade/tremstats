@@ -70,7 +70,7 @@ $weapon_kills = $db->GetAll("SELECT COUNT(kill_id) AS weapon_count,
                                  INNER JOIN weapons ON weapon_id = kill_weapon_id
                                  INNER JOIN games ON game_id = kill_game_id
                                  WHERE game_map_id = ?
-                                       AND kill_source_player_id != kill_target_player_id
+                                       AND kill_type != 'team'
                                  GROUP BY kill_weapon_id
                                  ORDER BY weapon_count DESC, weapon_name ASC",
                                  array($map_details['map_id']));
@@ -82,7 +82,10 @@ $destroyed_structures = $db->GetAll("SELECT COUNT(destruct_id) AS building_count
                                      FROM destructions
                                      INNER JOIN games ON game_id = destruct_game_id
                                      INNER JOIN buildings ON building_id = destruct_building_id
+                                     INNER JOIN weapons ON weapon_id = destruct_weapon_id
                                      WHERE game_map_id = ?
+                                           AND building_team != weapon_team
+                                           AND destruct_weapon_id != 'MOD_NOCREEP'
                                      GROUP BY destruct_building_id
                                      ORDER BY building_count DESC, building_name ASC",
                                      array($map_details['map_id']));
