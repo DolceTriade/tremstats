@@ -1,3 +1,16 @@
+1.9.3 - April 12, 2010
+-----
+
+ * Add vote summary page
+ * Add favorite victim and nemesis to player details (#117)
+ * Order players by score instead of kills in game summary
+ * Add --db and --pw tremstats.py options
+ * Player ids are no longer cleared by default with tremstats.py --reparse
+ * Add --clear-ids option when clearing ids is required
+ * Fix last seen time for players (#116)
+ * Update parsing of kills by <world> due to log format change (#133)
+ * Kill and destruction counts now ignore teamkills and 'no power' (#135)
+
 1.9.2 - January 18, 2010
 -----
 

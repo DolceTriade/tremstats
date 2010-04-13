@@ -1,3 +1,13 @@
+2010-04-13 Rezyn <rezyn0@gmail.com>
+	* ignore teamkills when counting total kills by weapon
+	* ignore teamkills and MOD_NOCREEP when counting structure kills
+	* ignore teamkills and MOD_NOCREEP in destruction efficiency
+	* order players by score instead of kills where appropriate
+	* release 1.9.3
+
+2010-04-03 Rezyn <rezyn0@gmail.com>
+	* include all non-player entities as kills by <world>
+
 2010-02-04 Rezyn <rezyn0@gmail.com>
 	* Do not clear player ids by default with --reparse
 	* Add --clear-ids to clear player ids when using --reparse
