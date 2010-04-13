@@ -78,7 +78,11 @@ class Calculator:
 			                      LEFT JOIN `destructions`
 			                             ON `destruct_building_id` = `building_id`
 			                            AND `destruct_player_id` = %s
+			                      INNER JOIN `weapons`
+			                             ON `weapon_id` = `destruct_weapon_id`
 			                      WHERE `destruct_id` IS NOT NULL
+			                            AND `weapon_team` != `building_team`
+			                            AND `weapon_constant` != 'MOD_NOCREEP'
 			                    ) / 5 / (`player_deaths_enemy` + 1), 0),
 
                                             `player_total_efficiency` = `player_kill_efficiency` + `player_destruction_efficiency`
