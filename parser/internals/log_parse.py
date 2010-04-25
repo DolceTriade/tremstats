@@ -820,7 +820,7 @@ class Parser:
 			return
 
 		# Check source player
-		if player_source_id >= 64:
+		if int(player_source_id) >= 64:
 			# This is not a player entity, so we take 0 as MySQL value
 			player_source_mysql_id = 0
 			player_source_team     = None
