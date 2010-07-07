@@ -93,8 +93,8 @@ function string_width( $size, $string ) {
   for ($i = 0, $l = strlen($string); $i < $l; $i++) {
     $c = $string[$i];
 
-    if($c == '^') {
-      if($i < $l) $i++;
+    if($c == '^' && $i < $l && $string[$i+1] != '^') {
+      $i++;
       continue;
     }
     $w += char_width( $size );
@@ -112,19 +112,17 @@ function color_print( $x, $y, $string, $im, $colors, $size, $alpha ) {
   for ($i = 0, $l = strlen($string); $i < $l; $i++) {
     $c = $string[$i];
 
-    if($c == '^') {
-      if($i < $l) {
-        $i++;
-        $c = $string[$i];
-        if(!array_key_exists($c, $colors)) {
-          $c = ((ord($c)) - (ord('0'))) & 7;
-        }
-        if(array_key_exists($c, $colors)) {
-          if($alpha == 1) {
-            $color = $colors[$c]['alpha'];
-          } else {
-            $color = $colors[$c]['alloc'];
-          }
+    if($c == '^' && $i < $l && $string[$i+1] != '^') {
+      $i++;
+      $c = $string[$i];
+      if(!array_key_exists($c, $colors)) {
+        $c = ((ord($c)) - (ord('0'))) & 7;
+      }
+      if(array_key_exists($c, $colors)) {
+        if($alpha == 1) {
+          $color = $colors[$c]['alpha'];
+        } else {
+          $color = $colors[$c]['alloc'];
         }
       }
       continue;
