@@ -145,7 +145,7 @@ $favorite_nemesis = $db->GetRow("SELECT player_id,
                                      COUNT(*) AS kill_count
                                      FROM kills
                                      LEFT JOIN players on kill_source_player_id = player_id
-                                     WHERE kill_target_player_id = ?
+                                     WHERE kill_target_player_id = ? AND kill_type = 'enemy'
                                      GROUP BY kill_source_player_id
                                      ORDER BY kill_count desc
                                      LIMIT 0,1",
