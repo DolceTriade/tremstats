@@ -1,0 +1,3 @@
+[submodule "parser/internals/trueskill"]
+	path = parser/internals/trueskill
+	url = https://github.com/dougz/trueskill.git
