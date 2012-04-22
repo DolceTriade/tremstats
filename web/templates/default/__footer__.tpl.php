@@ -9,8 +9,8 @@
         ?>
         seconds )
       </span>
-      <span id="footer_release"><a href="http://rezyn.mercenariesguild.net">Tremstats Too v<?php echo VERSION; ?></a></span><br>
-      <span id="footer_credits"> by Rezyn ~ original by <a href="http://www.dasprids.de" title="DASPRiD's">DASPRiD</a></span>
+      <span id="footer_release"><a href="https://github.com/ppetr/tremstats">Tremstats Too v<?php echo VERSION; ?></a></span><br>
+      <span id="footer_credits"> modified by <a href="https://github.com/ppetr">Petr</a> ~ original by <a href="http://rezyn.mercenariesguild.net">Rezyn</a> ~ and <a href="http://www.dasprids.de" title="DASPRiD's">DASPRiD</a> ~ </span>
     </div>
   </body>
 </html>

@@ -123,7 +123,7 @@ Do not contact Rezyn or DASPRiD about problems with this *Tremstats* fork.
 
 ### Tremstats 2.0.0
 
- - Name:    Petr (AKA Nalf)
+ - Name:    Petr
  - Website: [https://github.com/ppetr/tremstats](https://github.com/ppetr/tremstats)
 
 ### Tremstats Too 1.9.3
