@@ -18,7 +18,7 @@ class Trueskills:
         self.dbc = dbc
 
         # Try to load the trueskill module
-        self.trueskillModule = loadModule(self.trueskillModuleName, "TrueSkill module cannot be loaded.\nMost likely you're missing the SciPy module.")
+        self.trueskillModule = loadModule(self.trueskillModuleName, "TrueSkill module cannot be loaded.")
         if self.trueskillModule == None:
             return
         # ... and initialize it
