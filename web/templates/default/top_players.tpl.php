@@ -23,12 +23,13 @@
         <th title="Total Deaths"><?php echo custom_sort('Deaths',     'deaths'); ?></th>
         <th title="Total Team Kills"><?php echo custom_sort('TKs', 'team_kills'); ?></th>
         <th title="Player Efficiency Rating"><?php echo custom_sort('Efficiency', 'efficiency'); ?></th>
+        <th title="Player Skill Rating"><?php echo custom_sort('Skill', 'skill'); ?></th>
       </tr>
     </thead>
 
     <tfoot>
       <tr>
-        <td colspan="7">
+        <td colspan="8">
           Pages: <?php echo $this->pagelister->GetHTML(); ?>
         </td>
       </tr>
@@ -44,12 +45,13 @@
           <td><?php echo $player['player_deaths']; ?></td>
           <td><?php echo $player['player_teamkills']; ?></td>
           <td><?php echo $player['player_total_efficiency']; ?></td>
+          <td><?php echo round($player['skill'], 1); ?></td>
         </tr>
       <?php endforeach; ?>
 
       <?php if (!count($this->top)): ?>
         <tr>
-          <td colspan="7">No players yet</td>
+          <td colspan="8">No players yet</td>
         </tr>
       <?php endif; ?>
     </tbody>

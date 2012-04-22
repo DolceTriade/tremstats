@@ -18,7 +18,8 @@ $custom_orders = array (
   'kills'      => 'player_kills',
   'team_kills' => 'player_teamkills',
   'deaths'     => 'player_deaths',
-  'efficiency' => 'player_total_efficiency'
+  'efficiency' => 'player_total_efficiency',
+  'skill'      => 'skill'
 );
 $order = get_custom_sort($custom_orders, 'rank');
 
@@ -32,8 +33,11 @@ $db->Execute("CREATE TEMPORARY TABLE tmp (
                        player_kills,
                        player_teamkills,
                        player_deaths,
-                       player_total_efficiency
+                       player_total_efficiency,
+                       t.trueskill_mu - 3 * t.trueskill_sigma AS skill
                 FROM players
+                 LEFT OUTER JOIN trueskill_last t
+                   ON t.trueskill_player_id = players.player_id
                 WHERE player_games_played >= ?
                       AND player_last_game_id > ?
                 ORDER BY player_total_efficiency DESC
@@ -46,7 +50,8 @@ $pagelister->SetQuery("SELECT player_id,
                               player_kills,
                               player_teamkills,
                               player_deaths,
-                              player_total_efficiency
+                              player_total_efficiency,
+                              skill
                        FROM tmp
                        ORDER BY ".$order);
 $top = $db->GetAll($pagelister->GetQuery());

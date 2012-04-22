@@ -38,8 +38,12 @@ $player_details = $db->GetRow("SELECT player_id,
                                       SEC_TO_TIME(player_time_human) AS player_total_human,
                                       SEC_TO_TIME(player_time_spec + player_time_alien + player_time_human) AS player_total_time,
                                       player_first_gametime AS player_first_seen,
-                                      player_last_gametime AS player_last_seen
+                                      player_last_gametime AS player_last_seen,
+                                      t.trueskill_mu - 3 * t.trueskill_sigma AS skill,
+                                      t.trueskill_sigma AS skill_sigma
                                FROM players
+                                 LEFT OUTER JOIN trueskill_last t
+                                   ON t.trueskill_player_id = players.player_id
                                WHERE player_id = ?
                                LIMIT 0, 1",
                                array($_GET['player_id']));

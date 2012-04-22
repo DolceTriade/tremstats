@@ -23,12 +23,13 @@
         <th><?php echo custom_sort('Efficiency', 'efficiency'); ?></th>
         <th><?php echo custom_sort('Games',      'games'); ?></th>
         <th title="Game-time factor"><?php echo custom_sort('GFT',        'gametimefactor'); ?></th>
+        <th><?php echo custom_sort('Skill',      'skill'); ?></th>
       </tr>
     </thead>
 
     <tfoot>
       <tr>
-        <td colspan="7">
+        <td colspan="8">
           Pages: <?php echo $this->pagelister->GetHTML(); ?>
         </td>
       </tr>
@@ -44,12 +45,13 @@
           <td><?php echo $player['player_total_efficiency']; ?></td>
           <td><?php echo $player['player_games_played']; ?></td>
           <td><?php echo $player['player_game_time_factor']; ?></td>
+          <td><?php echo round($player['skill'], 1); ?></td>
         </tr>
       <?php endforeach; ?>
 
       <?php if (!count($this->top)): ?>
         <tr>
-          <td colspan="7">No players yet</td>
+          <td colspan="8">No players yet</td>
         </tr>
       <?php endif; ?>
     </tbody>

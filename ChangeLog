@@ -1,3 +1,7 @@
+2012-04-22 Petr <https://github.com/ppetr>
+	* Added an implementation of the TrueSkill(TM) algorithm.
+	* Modified documentation for github.
+
 2010-04-13 Rezyn <rezyn0@gmail.com>
 	* ignore teamkills when counting total kills by weapon
 	* ignore teamkills and MOD_NOCREEP when counting structure kills

@@ -100,6 +100,12 @@
       </tr>
 
       <tr>
+        <td>Skill</td>
+        <td colspan="3"><?php echo round($this->player_details['skill'],1); ?> (<span title="The more games are played against advesaries with skills similar to this player, the less uncertain the computation is.">uncertainty <?php echo round($this->player_details['skill_sigma'],1); ?></span>)</td>
+        <td></td>
+      </tr>
+
+      <tr>
         <td>Favorite Target</td>
         <td colspan="4"><?php if ($this->favorite_target): ?><a href="player_details.php?player_id=<?php echo $this->favorite_target['player_id']; ?>"><?php echo replace_color_codes($this->favorite_target['player_name']) ?></a> with <?php echo $this->favorite_target['kill_count']; ?> kills<?php endif; ?></td>
       </tr>

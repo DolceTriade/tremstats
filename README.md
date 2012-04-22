@@ -1,23 +1,27 @@
-Tremstats Too 1.9.3
+Tremstats Too 2.0.0
+===============================================================================
 For Tremulous 1.2 games.log
 
 Requirements
 -------------------------------------------------------------------------------
 You need atleast the following things for the Tremulous server:
-	- Python 2.4 or 2.5 (tested with 2.4)
-	- Site-Packages:                (common .deb or .rpm package name)
-           MySQLdb                      (python-mysqldb or MySQL-python)
-           Python Imaging Library "PIL" (python-imaging)
+
+ -  Python 2.6
+ -  Site-Packages:                (common .deb or .rpm package name)
+    -  MySQLdb                      (python-mysqldb or MySQL-python)
+    -  Python Imaging Library "PIL" (python-imaging)
 
 And the following things for the webserver (may be the same box):
-	- MySQL 4.1 or higher
-	- PHP 5.1 or higher
-        - php-gd (php module for gd graphics library)
+
+ - MySQL 4.1 or higher
+ - PHP 5.1 or higher
+ - php-gd (php module for gd graphics library)
 
 A server running:
-        - Tremulous 1.2
 
-Note: Windows specific code has been removed from the log parser, this plus
+ - Tremulous 1.2
+
+*Note:* Windows specific code has been removed from the log parser, this plus
       the lack of any testing whatsoever on Windows almost guarantees
       that you will need to fix tremstats.py if you plan to parse
       logs on a Windows platform.
@@ -45,12 +49,12 @@ to an existing one. Then execute both of the SQL files 'structure.sql' and
 
 Now copy all files from the 'parser' directory to a directory on your Tremulous
 server, for example '/usr/local/games/tremstats/'. Then give the mainfile
-execute rights by typing 'chmod a+x tremstats.py'.
+execute rights by typing `chmod a+x tremstats.py`.
 
 Then open 'config.py' in your prefered texteditor and edit the first few
 lines and enter your MySQL data and location of the 'games.log' and all
 your custom maps PK3s. After this part is done, you may parse your log which
-was created so far by typing './tremstats.py'.
+was created so far by typing `./tremstats.py`.
 
 You may want to parse your logfile every 12 hours or something like that.
 (as your database gets bigger, calculating stats will take more time, so
@@ -58,7 +62,7 @@ You may want to parse your logfile every 12 hours or something like that.
  processing power to spare -Rezyn )
 If you use crontab, you can enter the following line into '/etc/crontab':
 
-       0 */12 * * * root /usr/local/games/tremstats/tremstats.py
+    0 */12 * * * root /usr/local/games/tremstats/tremstats.py
 
 For further information about crontab, see Google.
 
@@ -66,14 +70,14 @@ Now, as you have setup all important things, you also want to see some output.
 So copy all files from 'web' to a directory reachable from the internet.
 Edit the file 'core/config.inc.php' and enter your MySQL data here again. The
 last setting in this file is the address of your tremulous server. This
-should be something like 'localhost:30720' or an external address. If you
+should be something like `localhost:30720` or an external address. If you
 have done this step, you have done everything. Have fun with Tremstats!
 
 
 
 Notices on tremstats.py
 -------------------------------------------------------------------------------
-Tremstats.py offers you some nice features. Type 'tremstats.py --help' for
+Tremstats.py offers you some nice features. Type `tremstats.py --help` for
 more information.
 
 
@@ -113,24 +117,29 @@ information and gave me lots of tips. Your are the best!
 
 Contact
 -------------------------------------------------------------------------------
-DO NOT Contact DASPRiD about problems with this 'Tremstats Too' fork,
-please contact Rezyn.
--------------------------------------------------------------------------------
-Tremstats Too 1.9.3
+Contact Petr at the [github project webpage](https://github.com/ppetr/tremstats).
+Do not contact Rezyn or DASPRiD about problems with this *Tremstats* fork.
 
-Name:    Rezyn
-E-Mail:  johne@verizon.net
-Website: http://rezyn.mercenariesguild.net
-IRC:     find me in #tremulous on freenode.net
+### Tremstats 2.0.0
 
--------------------------------------------------------------------------------
-Tremstats 0.6.0:
-  Original tremstats release by DASPRID
+ - Name:    Petr (AKA Nalf)
+ - Website: [https://github.com/ppetr/tremstats](https://github.com/ppetr/tremstats)
 
-Name:    Ben 'DASPRiD' Scholzen
-Jabber:  dasprid@jabber.org
-ICQ:     105677955
-IRC:     #DASPRiDs @ quakenet
-E-Mail:  mail@dasprids.de
-Website: http://www.dasprids.de
+### Tremstats Too 1.9.3
+
+ - Name:    Rezyn
+ - E-Mail:  johne@verizon.net
+ - Website: [http://rezyn.mercenariesguild.net](http://rezyn.mercenariesguild.net)
+ - IRC:     find me in #tremulous on freenode.net
+
+### Tremstats 0.6.0
+
+Original tremstats release by DASPRiD
+
+ - Name:    Ben 'DASPRiD' Scholzen
+ - Jabber:  dasprid@jabber.org
+ - ICQ:     105677955
+ - IRC:     #DASPRiDs @ quakenet
+ - E-Mail:  mail@dasprids.de
+ - Website: [http://www.dasprids.de](http://www.dasprids.de)
 
