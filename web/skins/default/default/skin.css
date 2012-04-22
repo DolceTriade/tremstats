@@ -1,3 +1,6 @@
+@import url(http://fonts.googleapis.com/css?family=Exo:600&subset=latin,latin-ext);
+
+
 html, body {
   padding: 0;
   margin: 0;
@@ -6,7 +9,7 @@ html, body {
 }
 
 * {
-  font-family: Verdana, Arial, Helvetica, Sans;
+  font-family: 'Exo', Verdana, Arial, Helvetica, sans-serif;
   font-size: 100%;
   color: #FFFFFF;
 }
