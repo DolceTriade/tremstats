@@ -4,6 +4,8 @@ The program parses Tremulous 1.2 games.log and stores the extracted information 
 
 The version 2.0.0 add the computation of individual players' skills based on the [TrueSkill](http://en.wikipedia.org/wiki/Trueskill) algorithm.
 
+The version 2.1.0 (currently in development) adds two separates skills for games played as a human and for games played as an alien.
+
 Requirements
 -------------------------------------------------------------------------------
 You need atleast the following things for the Tremulous server:
