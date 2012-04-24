@@ -47,32 +47,49 @@ class Trueskills:
         halfgame = game_time / 2
         # For each player select the last computed skill before the given game
         players = []
-        self.dbc.execute("""SELECT p.stats_player_id, p.stats_time_alien, p.stats_time_human, COALESCE(t.trueskill_mu, %s) AS mu, COALESCE(t.trueskill_sigma, %s) AS sigma FROM per_game_stats p LEFT JOIN trueskill t ON t.trueskill_game_id IN (SELECT MAX(s.trueskill_game_id) FROM trueskill s WHERE s.trueskill_player_id = t.trueskill_player_id AND s.trueskill_game_id < %s) AND t.trueskill_player_id = p.stats_player_id WHERE p.stats_game_id = %s""", (self.initial_mu, self.initial_sigma, game_id, game_id));
+        self.dbc.execute("""
+            SELECT p.stats_player_id, p.stats_time_alien, p.stats_time_human,
+                COALESCE(t.trueskill_mu, %s) AS mu, COALESCE(t.trueskill_sigma, %s) AS sigma,
+                COALESCE(t.trueskill_alien_mu, %s) AS mu_a, COALESCE(t.trueskill_alien_sigma, %s) AS sigma_a,
+                COALESCE(t.trueskill_human_mu, %s) AS mu_h, COALESCE(t.trueskill_human_sigma, %s) AS sigma_h
+            FROM per_game_stats p
+              LEFT JOIN trueskill t ON t.trueskill_game_id IN (SELECT MAX(s.trueskill_game_id) FROM trueskill s WHERE s.trueskill_player_id = t.trueskill_player_id AND s.trueskill_game_id < %s) AND t.trueskill_player_id = p.stats_player_id
+              WHERE p.stats_game_id = %s
+            """, (self.initial_mu, self.initial_sigma,
+                    self.initial_mu, self.initial_sigma,
+                    self.initial_mu, self.initial_sigma,
+                    game_id, game_id));
         # self.dbc.execute("""SELECT ... FROM per_game_stats p WHERE p.stats_game_id = %s""", game_id);
         for row in self.dbc.fetchall():
-            player = Player()
+            player = Player( Skill(row[3], row[4])
+                           , Skill(row[5], row[6])
+                           , Skill(row[7], row[8])
+                           )
             player.id = row[0]
-            player.skill = (row[3], row[4])
-            if row[1] > halfgame:
+            if row[1] > halfgame: # Alien at least 1/2 of the game time.
+                player.team = player.alien
                 if asWon:
-                    player.rank = 1
+                    player.rank(1)
                 else:
-                    player.rank = 2
-            elif row[2] > halfgame:
+                    player.rank(2)
+            elif row[2] > halfgame: # Human at least 1/2 of the game time.
+                player.team = player.human
                 if hsWon:
-                    player.rank = 1
+                    player.rank(1)
                 else:
-                    player.rank = 2
+                    player.rank(2)
             else:
                 continue # disregard this player - didn't play long enough
-            #print "Player %s with skill %s/%s and rank %s." % (player.id, player.skill[0], player.skill[1], player.rank)
             players.append(player)
 
         if (len(players) < 2):
             return # not enough players
         # Perform the computation
         try:
-            self.trueskillModule.AdjustPlayers(players)
+            # Adjust the overall skill:
+            self.trueskillModule.AdjustPlayers(map(lambda p: p.total, players))
+            # Adjust the skill corresponding to the team each player was in:
+            self.trueskillModule.AdjustPlayers(map(lambda p: p.team, players))
         except Exception as e:
             print "Recomputation for game %s failed, please report to the develper.\n%s" % (game_id, e)
         # Update the database
@@ -80,9 +97,15 @@ class Trueskills:
             #print "Player %s with skill %s/%s and rank %s." % (player.id, player.skill[0], player.skill[1], player.rank)
             self.dbc.execute("""INSERT INTO `trueskill`
               (`trueskill_player_id`, `trueskill_game_id`,
-               `trueskill_mu`, `trueskill_sigma`)
-              VALUES (%s, %s, %s, %s)""",
-              (player.id, game_id, player.skill[0], player.skill[1]) )
+               `trueskill_mu`, `trueskill_sigma`,
+               `trueskill_alien_mu`, `trueskill_alien_sigma`,
+               `trueskill_human_mu`, `trueskill_human_sigma`)
+              VALUES (%s, %s, %s, %s, %s, %s, %s, %s)""",
+              (player.id, game_id, 
+                  player.total.skill[0], player.total.skill[1],
+                  player.alien.skill[0], player.alien.skill[1],
+                  player.human.skill[0], player.human.skill[1] )
+            )
 
 def loadModule(name, msg):
     try:
@@ -120,4 +143,17 @@ def progress(lst, fn):
 
 
 class Player(object):
-    pass
+    def __init__(self, total, alien, human):
+        self.id = None
+        self.total = total
+        self.alien = alien
+        self.human = human
+    def rank(self, r):
+        self.total.rank = r
+        self.alien.rank = r
+        self.human.rank = r
+
+class Skill(object):
+    def __init__(self, mu, sigma):
+        self.skill = (mu, sigma)
+        self.rank = None
