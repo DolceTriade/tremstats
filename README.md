@@ -1,6 +1,8 @@
 Tremstats Too 2.0.0
 ===============================================================================
-For Tremulous 1.2 games.log
+The program parses Tremulous 1.2 games.log and stores the extracted information in a database. Then it can be viewed through a set of PHP pages.
+
+The version 2.0.0 add the computation of individual players' skills based on the [TrueSkill](http://en.wikipedia.org/wiki/Trueskill) algorithm.
 
 Requirements
 -------------------------------------------------------------------------------
