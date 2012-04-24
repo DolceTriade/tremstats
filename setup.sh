@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "Tremstats Too 2.0.0 simple setup script"
+echo "Tremstats Too 2.1.0 simple setup script"
 echo "you will be prompted for these things:"
 echo "  mysql host, username, password"
 echo "  mysql name to use for Tremstats database"
