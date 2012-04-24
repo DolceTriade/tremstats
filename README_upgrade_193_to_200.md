@@ -1,9 +1,11 @@
 Upgrading from 1.9.3 to 2.0.0
 =============================
 
-The only thing needed for upgrading is to create a new database table `trueskill` and a new view `trueskill_last`. On the next run the parser automatically computes the skills of the players by examining the whole history stored in the other tables.
+**Note:** This file is written using the Markdown markup. To view the formatted result, visit the address https://github.com/ppetr/tremstats/blob/master/README_upgrade_193_to_200.md at the project repository.
 
-To create the table and the view, execute the following SQL statements in your database (if you're viewing the unformatted text file, ignore the lines starting with \`\`\`, they are just delimiters for the SQL code):
+The only thing needed for upgrading is to create a new database table `trueskill` and a new view `trueskill_last`. On the next run the parser will detect that the skills have not been computed yet, and will automatically examine the whole history stored in the database and compute the skills of the players based on all the games in your database. __This means that after upgrading the computed skills will reflect all your stored history.__
+
+To create the table and the view, execute the following SQL statements in your database (if you're viewing the unformatted text file, ignore the lines starting with \`\`\`, they are just Markdown delimiters for the SQL code):
 
 ```sql
 CREATE TABLE `trueskill` (
