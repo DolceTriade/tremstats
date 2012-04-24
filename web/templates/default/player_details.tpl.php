@@ -100,8 +100,10 @@
       </tr>
 
       <tr>
-        <td>Skill</td>
-        <td colspan="3"><?php echo round($this->player_details['skill'],1); ?> (<span title="The more games are played against advesaries with skills similar to this player, the less uncertain the computation is.">uncertainty <?php echo round($this->player_details['skill_sigma'],1); ?></span>)</td>
+        <td>Skill (<span title="The more games are played against advesaries with skills similar to a player, the less uncertain the computation is." class="tooltip">uncertainity</span>)</td>
+        <td><?php echo round($this->player_details['skill'],1); ?> (<?php echo round($this->player_details['skill_sigma'],1); ?>)</td>
+        <td><?php echo round($this->player_details['skill_a'],1); ?> (<?php echo round($this->player_details['skill_a_sigma'],1); ?>)</td>
+        <td><?php echo round($this->player_details['skill_h'],1); ?> (<?php echo round($this->player_details['skill_h_sigma'],1); ?>)</td>
         <td></td>
       </tr>
 

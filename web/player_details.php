@@ -40,7 +40,11 @@ $player_details = $db->GetRow("SELECT player_id,
                                       player_first_gametime AS player_first_seen,
                                       player_last_gametime AS player_last_seen,
                                       t.trueskill_mu - 3 * t.trueskill_sigma AS skill,
-                                      t.trueskill_sigma AS skill_sigma
+                                      t.trueskill_sigma AS skill_sigma,
+                                      t.trueskill_alien_mu - 3 * t.trueskill_alien_sigma AS skill_a,
+                                      t.trueskill_alien_sigma AS skill_a_sigma,
+                                      t.trueskill_human_mu - 3 * t.trueskill_human_sigma AS skill_h,
+                                      t.trueskill_human_sigma AS skill_h_sigma
                                FROM players
                                  LEFT OUTER JOIN trueskill_last t
                                    ON t.trueskill_player_id = players.player_id

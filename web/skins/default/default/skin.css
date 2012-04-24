@@ -362,7 +362,7 @@ col.playername {
 }
 
 col.playernamewide {
-  width: 40%;
+  width: 35%;
 }
 
 col.weaponicon {
@@ -389,3 +389,7 @@ input.sig {
   border-right: 1px solid #57616b;
 }
 
+span.tooltip {
+    border-bottom: 1px dashed gray;
+    cursor: help;
+}
